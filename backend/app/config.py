@@ -13,8 +13,8 @@ class Settings(BaseSettings):
     paypal_client_secret: str = ""
     paypal_base_url: str = SANDBOX_BASE
     paypal_webhook_id: str = ""
-    llm_provider: str = "anthropic"
-    llm_model: str = "claude-sonnet-5-5"
+    llm_provider: str = "gemini"
+    llm_model: str = "gemini-2.5-flash"
     anthropic_api_key: str = ""
     gemini_api_key: str = ""
     cors_origins: str = "http://localhost:5173"

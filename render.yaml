@@ -27,10 +27,12 @@ services:
         sync: false
       - key: PAYPAL_WEBHOOK_ID
         sync: false
-      - key: ANTHROPIC_API_KEY
+      - key: GEMINI_API_KEY
         sync: false
+      - key: LLM_PROVIDER
+        value: gemini
       - key: LLM_MODEL
-        value: claude-sonnet-5-5
+        value: gemini-2.5-flash
       - key: CORS_ORIGINS
         value: https://c2c-web.onrender.com
 

@@ -19,7 +19,10 @@ def _caller() -> ToolCaller:
         from app.llm.anthropic_impl import call_tool
 
         return call_tool
-    # ponytail: Gemini impl not written yet; add app/llm/gemini_impl.py when it's needed.
+    if provider == "gemini":
+        from app.llm.gemini_impl import call_tool as gemini_call
+
+        return gemini_call
     raise NotImplementedError(f"LLM_PROVIDER={provider} not implemented")
 
 

@@ -8,3 +8,5 @@
 | 2026-10-07 | Tailwind v4 via `@tailwindcss/vite` | No PostCSS/config files needed | Tailwind v3 + postcss config |
 | 2026-10-07 | Local dev Postgres from `pgserver` wheel binaries (port 5433) | Docker Desktop would not start; same major version (16) as Render | Waiting on Docker |
 | 2026-10-07 | Gemini provider stubbed (NotImplementedError) | Anthropic is the default; add when needed | Writing an unused impl now |
+| 2026-10-07 | Default LLM = Gemini 2.5 Flash (free tier) via REST, Anthropic kept as option | Zero-cost requirement; Anthropic account has no credits | Paid Claude API |
+| 2026-10-07 | Recommend Neon free Postgres over Render free Postgres for prod | Render free DB expires after 30 days (before Nov 12 deadline) | Paid Render DB |
