@@ -58,27 +58,37 @@ async def paypal(request: Request, db: Session = Depends(get_db)) -> dict[str, s
         event_id = str(event["id"])
     except (ValueError, KeyError) as e:
         raise HTTPException(400, "bad event") from e
-    if db.get(WebhookEvent, event_id):
+    ev = db.get(WebhookEvent, event_id)
+    if ev and ev.processed_at:
         return {"status": "duplicate"}
-    try:
-        verified = pp_webhooks.verify(
-            get_client(), dict(request.headers), event, get_settings().paypal_webhook_id
-        )
-    except PayPalError as e:
-        log.warning("webhook verify call failed: %s", e)
-        verified = False
-    ev = WebhookEvent(
-        event_id=event_id, type=str(event.get("event_type", "")), raw_json=event, verified=verified
-    )
-    db.add(ev)
-    db.commit()  # stored (and deduped) before processing
-    if not verified:
+    if ev is None or not ev.verified:  # first delivery, or a retry after a failed verify call
+        try:
+            verified = pp_webhooks.verify(
+                get_client(), dict(request.headers), event, get_settings().paypal_webhook_id
+            )
+        except PayPalError as e:
+            log.warning("webhook verify call failed: %s", e)
+            verified = False
+        if ev is None:
+            ev = WebhookEvent(
+                event_id=event_id,
+                type=str(event.get("event_type", "")),
+                raw_json=event,
+                verified=verified,
+            )
+            db.add(ev)
+        ev.verified = verified
+    db.commit()  # raw event stored first; only processed_at marks it done (retries reprocess)
+    if not ev.verified:
         return {"status": "stored-unverified"}
     try:
+        db.refresh(ev, with_for_update=True)  # one processor per event
+        if ev.processed_at:
+            return {"status": "duplicate"}
         result = dispatch(db, event)
-    except PayPalError as e:
+    except Exception as e:
         db.rollback()
-        raise HTTPException(502, str(e)) from e  # PayPal retries delivery; handlers are idempotent
+        raise HTTPException(502, str(e)) from e  # PayPal redelivers; handlers are idempotent
     ev.processed_at = datetime.now(UTC)
     db.commit()
     return {"status": result}

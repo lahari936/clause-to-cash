@@ -7,6 +7,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.api.serialize import row
+from app.config import get_settings
 from app.db.models import Contract, Invoice, LedgerEntry, Party, Payout
 from app.db.session import get_db
 from app.money import dates
@@ -71,5 +72,7 @@ def get_clock() -> dict[str, str]:
 
 @router.post("/demo/clock")
 def set_clock(body: Clock) -> dict[str, str]:
+    if not get_settings().allow_demo_clock:
+        raise HTTPException(403, "demo clock disabled (ALLOW_DEMO_CLOCK=false)")
     dates.set_today(body.today)
     return {"today": dates.today().isoformat()}

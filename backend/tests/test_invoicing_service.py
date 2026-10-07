@@ -38,7 +38,7 @@ def test_accept_creates_and_sends_exact_invoice(db, llm, pp: respx.MockRouter) -
     assert body["items"][0]["unit_amount"] == {"currency_code": "USD", "value": "4000.00"}
     assert body["primary_recipients"][0]["billing_info"]["email_address"] == "client@test.example"
     assert "Contract p." in body["detail"]["note"]  # the cited clause rides on the invoice
-    assert pp.routes[1].calls[0].request.headers["PayPal-Request-Id"] == f"c2c-inv-{inv.id}"
+    assert pp.routes[1].calls[0].request.headers["PayPal-Request-Id"] == f"c2c-inv-m{m.id}"
     assert db.scalars(select(LedgerEntry.type)).all() == ["invoice_sent"]
 
 

@@ -1,6 +1,7 @@
 from decimal import Decimal
 from functools import lru_cache
 from pathlib import Path
+from urllib.parse import urlparse
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -34,12 +35,13 @@ class Settings(BaseSettings):
     demo_clock: str = ""
     github_webhook_secret: str = ""
     disable_scheduler: bool = False
+    allow_demo_clock: bool = True  # set false to stop anyone fast-forwarding late fees
 
 
 @lru_cache
 def get_settings() -> Settings:
     s = Settings()
-    if "sandbox" not in s.paypal_base_url:
+    if urlparse(s.paypal_base_url).hostname != "api-m.sandbox.paypal.com":
         raise RuntimeError(f"Refusing non-sandbox PayPal URL: {s.paypal_base_url}")
     # Render hands out postgres:// URLs; SQLAlchemy needs the psycopg driver name.
     for prefix in ("postgres://", "postgresql://"):

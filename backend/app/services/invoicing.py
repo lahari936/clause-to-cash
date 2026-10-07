@@ -1,5 +1,4 @@
 import logging
-import uuid
 from decimal import Decimal
 from typing import Any
 
@@ -24,18 +23,27 @@ def client_party(db: Session, contract_id: int) -> Party:
     ).one()
 
 
-def _new_invoice(db: Session, **kw: Any) -> Invoice:
-    inv = Invoice(request_id=f"tmp-{uuid.uuid4()}", **kw)
-    db.add(inv)
-    db.flush()
-    inv.request_id = f"c2c-inv-{inv.id}"  # idempotency key derived from our row id
+def _invoice_row(db: Session, key: str, **kw: Any) -> Invoice:
+    """One row per business key (milestone / base invoice). The key is the PayPal-Request-Id, so
+    a retry after any failure (even a timeout after PayPal accepted it) replays the same request
+    instead of creating a second invoice. The unique key also stops concurrent duplicates."""
+    inv = db.scalar(select(Invoice).where(Invoice.request_id == key).with_for_update())
+    if inv is None:
+        inv = Invoice(request_id=key, **kw)
+        db.add(inv)
+        db.flush()
+    elif inv.status == "FAILED":
+        inv.status = "DRAFT"
+    # ponytail: a milestone invoice CANCELLED in PayPal can't be re-issued under the same key;
+    # add a versioned key (c2c-inv-m{id}-v2) if re-issuing cancelled invoices is ever needed.
     return inv
 
 
 def _create_and_send(db: Session, inv: Invoice, draft: pp_invoices.InvoiceDraft) -> None:
     pp = get_client()
     try:
-        inv.paypal_invoice_id = pp_invoices.create_draft(pp, inv.request_id, draft)
+        if not inv.paypal_invoice_id:  # a retry reuses the draft created last time
+            inv.paypal_invoice_id = pp_invoices.create_draft(pp, inv.request_id, draft)
         pp_invoices.send(pp, f"{inv.request_id}-send", inv.paypal_invoice_id)
     except PayPalError:
         inv.status = "FAILED"
@@ -71,8 +79,9 @@ def issue_milestone_invoice(db: Session, a: Action) -> dict[str, Any]:
     cl = db.get(Clause, m.clause_id) if m.clause_id else None
     issued = dates.today()
     due = dates.due_date(issued, terms.net_days)
-    inv = _new_invoice(
+    inv = _invoice_row(
         db,
+        f"c2c-inv-m{m.id}",
         contract_id=c.id,
         milestone_id=m.id,
         kind="milestone",
@@ -112,8 +121,9 @@ def issue_late_fee_invoice(db: Session, a: Action) -> dict[str, Any]:
     assert base and c and terms
     issued = dates.today()
     due = dates.due_date(issued, terms.net_days)
-    inv = _new_invoice(
+    inv = _invoice_row(
         db,
+        f"c2c-inv-lf{base.id}",
         contract_id=c.id,
         base_invoice_id=base.id,
         kind="late_fee",
@@ -176,7 +186,9 @@ def send_reminder(db: Session, a: Action) -> dict[str, Any]:
 
 
 def mark_paid(db: Session, inv: Invoice, paid: Decimal | None) -> bool:
-    """Idempotent: returns False if already processed. Triggers revenue-share payouts."""
+    """Idempotent: returns False if already processed. Triggers revenue-share payouts.
+    The row lock serialises the webhook and the poll job so only one of them pays out."""
+    db.refresh(inv, with_for_update=True)
     if inv.status == "PAID":
         return False
     inv.status = "PAID"

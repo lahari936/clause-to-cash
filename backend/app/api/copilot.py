@@ -24,7 +24,7 @@ def ask(body: Ask, db: Session = Depends(get_db)) -> dict[str, Any]:
     try:
         out = copilot.chat(db, c, body.message)
     except Exception as e:
-        db.commit()  # keep any guard events already written
+        db.rollback()  # never keep a half-done money action
         raise HTTPException(502, f"copilot failed: {e}") from e
     db.commit()
     return out

@@ -1,4 +1,4 @@
-import uuid
+import logging
 from typing import Any
 
 from sqlalchemy import select
@@ -11,6 +11,8 @@ from app.money import splits
 from app.paypal import payouts as pp_payouts
 from app.paypal.client import PayPalError, get_client
 from app.services.actions import Outcome, ledger
+
+log = logging.getLogger(__name__)
 
 
 def share_actions(db: Session, inv: Invoice) -> list[Action]:
@@ -42,19 +44,23 @@ def _send(db: Session, actions: list[Action]) -> list[Payout]:
     rows = []
     for a in actions:
         assert a.invoice_id is not None and a.party_id is not None
-        p = Payout(
-            invoice_id=a.invoice_id,
-            party_id=a.party_id,
-            amount=a.amount,
-            request_id=f"tmp-{uuid.uuid4()}",
-        )
-        db.add(p)
-        db.flush()
-        p.request_id = f"c2c-po-{p.id}"
+        # Key = (invoice, party): one row ever per share; a FAILED row is reused on retry and the
+        # unique key makes a concurrent duplicate insert fail instead of paying twice.
+        key = f"c2c-po-inv{a.invoice_id}-p{a.party_id}"
+        p = db.scalar(select(Payout).where(Payout.request_id == key).with_for_update())
+        if p is None:
+            p = Payout(
+                invoice_id=a.invoice_id, party_id=a.party_id, amount=a.amount, request_id=key
+            )
+            db.add(p)
+            db.flush()
+        p.status = "PENDING"
         rows.append(p)
     inv = db.get(Invoice, actions[0].invoice_id)
     assert inv
-    batch_id = f"c2c-batch-{rows[0].id}"
+    # Same set of shares -> same batch id -> PayPal replays instead of paying again.
+    parties = "-".join(str(a.party_id) for a in sorted(actions, key=lambda a: a.party_id or 0))
+    batch_id = f"c2c-batch-inv{inv.id}-p{parties}"
     items = [
         pp_payouts.PayoutItem(
             r.request_id,
@@ -85,10 +91,14 @@ def send_one(db: Session, a: Action) -> dict[str, Any]:
     return {"payout_id": rows[0].id, "paypal_batch_id": rows[0].paypal_batch_id}
 
 
-def pay_shares(db: Session, inv: Invoice, actor: str = "payouts") -> list[Outcome]:
+def pay_shares(
+    db: Session, inv: Invoice, actor: str = "payouts", only_parties: set[int] | None = None
+) -> list[Outcome]:
     """On PAID: every share goes through the guard; ALLOWed ones go out as one batch."""
     outcomes, allowed = [], []
     for a in share_actions(db, inv):
+        if only_parties is not None and a.party_id not in only_parties:
+            continue
         d = guard.check(db, a, actor)
         outcomes.append(Outcome(d))
         if d.allowed:
@@ -97,6 +107,23 @@ def pay_shares(db: Session, inv: Invoice, actor: str = "payouts") -> list[Outcom
     for o, r in zip([o for o in outcomes if o.decision.allowed], rows, strict=True):
         o.result = {"payout_id": r.id, "paypal_batch_id": r.paypal_batch_id}
     return outcomes
+
+
+def retry_failed(db: Session) -> None:
+    """Poll-job hook: re-send shares whose payout FAILED (same keys, so never double-paid)."""
+    failed = db.execute(
+        select(Payout.invoice_id, Payout.party_id).where(Payout.status == "FAILED")
+    ).all()
+    by_inv: dict[int, set[int]] = {}
+    for inv_id, party_id in failed:
+        by_inv.setdefault(inv_id, set()).add(party_id)
+    for inv_id, parties in by_inv.items():
+        inv = db.get(Invoice, inv_id)
+        if inv and inv.status == "PAID":
+            try:
+                pay_shares(db, inv, actor="payouts (retry)", only_parties=parties)
+            except PayPalError as e:
+                log.error("payout retry failed: %s", e)
 
 
 def sync_batch(db: Session, batch_id: str) -> None:

@@ -89,3 +89,10 @@ All commands run from `backend/` with the venv active unless noted. Results from
 ## Local dev notes
 - Port 5432 on the dev laptop is taken by another Postgres; local `.env` uses 5433 (pgserver binaries, Postgres 16.2).
 - Tests use a separate `c2c_test` database created automatically by `tests/conftest.py`.
+
+### Review 1 (2026-10-07) — FAIL, 2 BLOCKERs, fixed
+- BLOCKER race (webhook vs poll) could double-pay: `mark_paid` now locks the invoice row (`SELECT … FOR UPDATE`) and re-reads status; accept/approve lock their rows too.
+- BLOCKER non-durable idempotency keys: keys now come from business identity (`c2c-inv-m{milestone}`, `c2c-inv-lf{invoice}`, `c2c-po-inv{invoice}-p{party}`, deterministic batch ids), are unique in Postgres, and failed rows are reused on retry; transport errors (timeouts) become `PayPalError` and are recorded as FAILED.
+- MAJORs fixed: webhook dedupe uses `processed_at` (redeliveries after a failure are processed); disputes only link to an invoice they name; send failure reuses the existing draft; `--cached` eval is offline and writes nothing.
+- MINORs fixed: failed payouts retried by the poll job; copilot errors roll back; `ALLOW_DEMO_CLOCK` flag; exact sandbox host check; poll commits per item.
+- Regression tests: `pytest tests/test_idempotency.py -q` → 6 passed. Full: `pytest -q` → 113 passed; ruff, mypy clean.

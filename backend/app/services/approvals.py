@@ -11,6 +11,8 @@ class ApprovalError(Exception):
 
 def _pending(db: Session, event_id: int) -> GuardEvent:
     ev = db.get(GuardEvent, event_id)
+    if ev is not None:
+        db.refresh(ev, with_for_update=True)  # a double-click can't approve twice
     if ev is None or ev.decision != "NEEDS_APPROVAL" or ev.resolution != "pending":
         raise ApprovalError("no pending approval with that id")
     return ev

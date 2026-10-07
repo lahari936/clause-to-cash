@@ -14,7 +14,7 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
-from app.agents.checker import check
+from app.agents.checker import CheckResult, check
 from app.agents.extractor import extract, field_items
 from app.agents.validators import validate
 from app.ingest.pdf import page_texts
@@ -81,19 +81,24 @@ def run(stage: str, cached: bool) -> float:
         flagged: set[str] = set()
         if stage == "full":
             flags = validate(pred, pages)
-            verdicts = check(field_items(pred), pages)
-            time.sleep(7)
+            saved = OUT / f"{pdf.stem}.flags.json"
+            if cached and saved.exists():  # offline + reproducible: reuse recorded verdicts
+                checked = json.loads(saved.read_text())["checker"]
+                verdicts = {k: CheckResult(**v) for k, v in checked.items()}
+            else:
+                verdicts = check(field_items(pred), pages)
+                time.sleep(7)
+                saved.write_text(
+                    json.dumps(
+                        {
+                            "validators": flags,
+                            "checker": {k: v.model_dump() for k, v in verdicts.items()},
+                        },
+                        indent=2,
+                    )
+                )
             flagged = set(flags) | {p for p, r in verdicts.items() if r.verdict != "ok"}
             flagged |= {f.path for f in field_items(pred) if f.cite and f.cite.confidence < 0.7}
-            (OUT / f"{pdf.stem}.flags.json").write_text(
-                json.dumps(
-                    {
-                        "validators": flags,
-                        "checker": {k: v.model_dump() for k, v in verdicts.items()},
-                    },
-                    indent=2,
-                )
-            )
         ok, n, misses = score(pred, gold, flagged)
         total_ok, total = total_ok + ok, total + n
         print(f"{pdf.stem}: {ok}/{n}" + "".join(f"\n   miss {m}" for m in misses))

@@ -24,17 +24,14 @@ log = logging.getLogger(__name__)
 
 
 def _match_invoice(db: Session, raw: dict[str, Any]) -> Invoice | None:
+    """Only link a dispute to an invoice it names; an unmatched dispute is recorded unlinked."""
     for t in raw.get("disputed_transactions", []) or []:
         ref = t.get("invoice_number") or t.get("seller_transaction_id")
         if ref:
             inv = db.scalar(select(Invoice).where(Invoice.paypal_invoice_id == ref))
             if inv:
                 return inv
-    return db.scalar(
-        select(Invoice)
-        .where(Invoice.status == "PAID", Invoice.kind == "milestone")
-        .order_by(Invoice.id.desc())
-    )
+    return None
 
 
 def facts(db: Session, inv: Invoice, raw: dict[str, Any]) -> str:

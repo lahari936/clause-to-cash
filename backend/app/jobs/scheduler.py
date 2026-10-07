@@ -2,6 +2,7 @@
 
 import logging
 from collections.abc import Callable
+from typing import Any
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from sqlalchemy import select
@@ -27,15 +28,25 @@ def _job(fn: Callable[[Session], object]) -> Callable[[], None]:
     return run
 
 
+def _each(db: Session, items: list[Any], fn: Callable[[Any], object]) -> None:
+    """Commit per item so one bad invoice/batch doesn't roll back the others."""
+    for it in items:
+        try:
+            fn(it)
+            db.commit()
+        except Exception:
+            db.rollback()
+            log.exception("poll item %s failed", it)
+
+
 def poll(db: Session) -> None:
-    for inv in db.scalars(select(Invoice).where(Invoice.status == "SENT")).all():
-        invoicing.sync_invoice(db, inv)
+    sent = list(db.scalars(select(Invoice).where(Invoice.status == "SENT")))
+    _each(db, sent, lambda inv: invoicing.sync_invoice(db, inv))
     batches = db.scalars(
         select(Payout.paypal_batch_id).where(Payout.status.in_(("SENT", "UNCLAIMED"))).distinct()
     ).all()
-    for b in batches:
-        if b:
-            payouts.sync_batch(db, b)
+    _each(db, [b for b in batches if b], lambda b: payouts.sync_batch(db, b))
+    payouts.retry_failed(db)
 
 
 def start() -> BackgroundScheduler:

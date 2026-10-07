@@ -43,6 +43,7 @@ def deliver(
 
 def accept(db: Session, m: Milestone, by: str) -> Outcome:
     """Agency confirms acceptance -> milestone accepted -> guarded invoice."""
+    db.refresh(m, with_for_update=True)  # two concurrent accepts: the second sees "invoiced"
     if m.status not in ("delivered", "accepted"):
         raise MilestoneError(f"milestone is {m.status}; deliver it first")
     m.status = "accepted"
