@@ -3,3 +3,8 @@
 |---|---|---|---|
 | 2026-10-06 | Client pays agency via Invoicing; agency pays subs via Payouts | No holding of third-party funds; simplest compliant flow | Platform escrow via Orders authorize/capture |
 | 2026-10-06 | Guard rules are deterministic Python, LLM only proposes | Money safety + strongest demo story | LLM-judged policy |
+| 2026-10-07 | Python 3.13 locally, 3.12 on Render | 3.12 not installed on dev laptop; code uses only 3.12 features | Installing 3.12 just for parity |
+| 2026-10-07 | React 19 (Vite template default) instead of 18 | Current Vite template ships 19; TanStack Query + AG Grid support it | Pinning back to 18 |
+| 2026-10-07 | Tailwind v4 via `@tailwindcss/vite` | No PostCSS/config files needed | Tailwind v3 + postcss config |
+| 2026-10-07 | Local dev Postgres from `pgserver` wheel binaries (port 5433) | Docker Desktop would not start; same major version (16) as Render | Waiting on Docker |
+| 2026-10-07 | Gemini provider stubbed (NotImplementedError) | Anthropic is the default; add when needed | Writing an unused impl now |
