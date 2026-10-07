@@ -77,6 +77,8 @@ async def paypal(request: Request, db: Session = Depends(get_db)) -> dict[str, s
                 verified=verified,
             )
             db.add(ev)
+        if verified:  # keep the body that actually verified, never an earlier forged one
+            ev.raw_json = event
         ev.verified = verified
     db.commit()  # raw event stored first; only processed_at marks it done (retries reprocess)
     if not ev.verified:
@@ -85,7 +87,7 @@ async def paypal(request: Request, db: Session = Depends(get_db)) -> dict[str, s
         db.refresh(ev, with_for_update=True)  # one processor per event
         if ev.processed_at:
             return {"status": "duplicate"}
-        result = dispatch(db, event)
+        result = dispatch(db, ev.raw_json)  # only ever the verified body
     except Exception as e:
         db.rollback()
         raise HTTPException(502, str(e)) from e  # PayPal redelivers; handlers are idempotent

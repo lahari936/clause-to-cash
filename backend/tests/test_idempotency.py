@@ -163,3 +163,35 @@ def test_unmatched_dispute_is_not_pinned_on_another_invoice(db, llm, pp: respx.M
     db.expire_all()
     assert db.get(Milestone, inv.milestone_id).status == "paid"
     assert db.scalars(select(Dispute)).one().contract_id is None
+
+
+def test_second_payout_failure_stops_for_review(db, llm, pp: respx.MockRouter) -> None:  # type: ignore[no-untyped-def]
+    inv = _paid_setup(db, llm, pp)
+    pp.routes[4].side_effect = httpx.ReadTimeout("slow")
+    invoicing.sync_invoice(db, inv)
+    db.commit()
+    payouts.retry_failed(db)
+    db.commit()
+    payouts.retry_failed(db)  # nothing left to retry automatically
+    db.commit()
+    assert {p.status for p in db.scalars(select(Payout))} == {"NEEDS_REVIEW"}
+    assert pp.routes[4].call_count == 2
+
+
+def test_webhook_dispatches_only_the_verified_body(db, llm, pp: respx.MockRouter) -> None:  # type: ignore[no-untyped-def]
+    pp.post("/v1/notifications/verify-webhook-signature").mock(
+        side_effect=[
+            httpx.Response(200, json={"verification_status": "FAILURE"}),
+            httpx.Response(200, json={"verification_status": "SUCCESS"}),
+        ]
+    )
+    forged = {
+        "id": "WH-F",
+        "event_type": "CUSTOMER.DISPUTE.CREATED",
+        "resource": {"dispute_id": "EVIL"},
+    }
+    real = {"id": "WH-F", "event_type": "PING", "resource": {}}
+    api.post("/webhooks/paypal", content=json.dumps(forged), headers=SIG)
+    r = api.post("/webhooks/paypal", content=json.dumps(real), headers=SIG)
+    assert r.json() == {"status": "ignored"}  # the verified (real) body was dispatched
+    assert db.scalars(select(Dispute)).all() == []

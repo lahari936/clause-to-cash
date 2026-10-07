@@ -41,7 +41,8 @@ def _send(db: Session, actions: list[Action]) -> list[Payout]:
     """One PayPal batch for all already-ALLOWed payout actions."""
     if not actions:
         return []
-    rows = []
+    rows: list[Payout] = []
+    sent: list[Action] = []
     for a in actions:
         assert a.invoice_id is not None and a.party_id is not None
         # Key = (invoice, party): one row ever per share; a FAILED row is reused on retry and the
@@ -54,8 +55,14 @@ def _send(db: Session, actions: list[Action]) -> list[Payout]:
             )
             db.add(p)
             db.flush()
+        elif p.status != "FAILED":  # another processor sent it while we waited for the lock
+            continue
         p.status = "PENDING"
         rows.append(p)
+        sent.append(a)
+    if not rows:
+        return []
+    actions = sent
     inv = db.get(Invoice, actions[0].invoice_id)
     assert inv
     # Same set of shares -> same batch id -> PayPal replays instead of paying again.
@@ -123,7 +130,13 @@ def retry_failed(db: Session) -> None:
             try:
                 pay_shares(db, inv, actor="payouts (retry)", only_parties=parties)
             except PayPalError as e:
-                log.error("payout retry failed: %s", e)
+                # One automatic retry only. A second failure may mean PayPal already took the
+                # batch (a reused sender_batch_id is rejected), so a human reconciles it.
+                log.error("payout retry failed, needs review: %s", e)
+                for p in db.scalars(
+                    select(Payout).where(Payout.invoice_id == inv_id, Payout.status == "FAILED")
+                ):
+                    p.status = "NEEDS_REVIEW"
 
 
 def sync_batch(db: Session, batch_id: str) -> None:
@@ -137,8 +150,8 @@ def sync_batch(db: Session, batch_id: str) -> None:
         new = {
             "SUCCESS": "SUCCESS",
             "FAILED": "FAILED",
-            "RETURNED": "FAILED",
-            "BLOCKED": "FAILED",
+            "RETURNED": "RETURNED",  # never auto-retried; the agency follows up
+            "BLOCKED": "RETURNED",
             "UNCLAIMED": "UNCLAIMED",
         }.get(it.status, p.status)
         if new == "SUCCESS" and p.status != "SUCCESS":

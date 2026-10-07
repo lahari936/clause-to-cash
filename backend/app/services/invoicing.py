@@ -32,10 +32,14 @@ def _invoice_row(db: Session, key: str, **kw: Any) -> Invoice:
         inv = Invoice(request_id=key, **kw)
         db.add(inv)
         db.flush()
+    elif inv.status == "CANCELLED":
+        # ponytail: re-issuing a cancelled invoice needs a versioned key (c2c-inv-m{id}-v2).
+        raise PayPalError(
+            409, "CANCELLED", "invoice was cancelled in PayPal; re-issue manually", None
+        )
     elif inv.status == "FAILED":
         inv.status = "DRAFT"
-    # ponytail: a milestone invoice CANCELLED in PayPal can't be re-issued under the same key;
-    # add a versioned key (c2c-inv-m{id}-v2) if re-issuing cancelled invoices is ever needed.
+        inv.due_date, inv.issued_on = kw["due_date"], kw["issued_on"]
     return inv
 
 

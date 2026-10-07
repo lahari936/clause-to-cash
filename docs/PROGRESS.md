@@ -96,3 +96,8 @@ All commands run from `backend/` with the venv active unless noted. Results from
 - MAJORs fixed: webhook dedupe uses `processed_at` (redeliveries after a failure are processed); disputes only link to an invoice they name; send failure reuses the existing draft; `--cached` eval is offline and writes nothing.
 - MINORs fixed: failed payouts retried by the poll job; copilot errors roll back; `ALLOW_DEMO_CLOCK` flag; exact sandbox host check; poll commits per item.
 - Regression tests: `pytest tests/test_idempotency.py -q` → 6 passed. Full: `pytest -q` → 113 passed; ruff, mypy clean.
+
+### Review 2 (2026-10-07) — PASS
+- New MAJORs from the fixes also fixed: webhooks dispatch only the body that verified; payout auto-retry happens once, then rows go to `NEEDS_REVIEW` (RETURNED/BLOCKED are never auto-retried); a payout row already sent by another processor is skipped; cancelled invoices aren't silently re-sent; reused rows refresh their due date.
+- `pytest -q` → 115 passed; ruff, `mypy --strict app/guard app/paypal`, `mypy app` clean.
+- Open MINOR (accepted): copilot rollback on a failure can drop the audit row of an earlier tool call in the same message; keys make the retry safe.
