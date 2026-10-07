@@ -1,0 +1,71 @@
+{
+  "validators": {},
+  "checker": {
+    "currency": {
+      "path": "currency",
+      "verdict": "ok",
+      "reason": "The page explicitly states the total fee and deposit in EUR.",
+      "corrected": null
+    },
+    "total_amount": {
+      "path": "total_amount",
+      "verdict": "ok",
+      "reason": "The page states the total fee for the services is EUR 12,000.00.",
+      "corrected": null
+    },
+    "net_days": {
+      "path": "net_days",
+      "verdict": "ok",
+      "reason": "The page states that each invoice is payable within 21 days.",
+      "corrected": null
+    },
+    "deposit_amount": {
+      "path": "deposit_amount",
+      "verdict": "ok",
+      "reason": "The page states a non-refundable deposit of EUR 2,000.00.",
+      "corrected": null
+    },
+    "late_fee": {
+      "path": "late_fee",
+      "verdict": "ok",
+      "reason": "The late fee terms match the text specifying 1% per month, 7 days grace, and EUR 300.00 cap.",
+      "corrected": null
+    },
+    "parties[0]": {
+      "path": "parties[0]",
+      "verdict": "ok",
+      "reason": "The page correctly identifies Nordlicht Digital as the agency with the matching email.",
+      "corrected": null
+    },
+    "parties[1]": {
+      "path": "parties[1]",
+      "verdict": "ok",
+      "reason": "The page correctly identifies Alpenmode AG as the client with the matching email.",
+      "corrected": null
+    },
+    "parties[2]": {
+      "path": "parties[2]",
+      "verdict": "ok",
+      "reason": "The page lists Lukas Brandt as a subcontractor with email lukas@brandt.example and 20% share.",
+      "corrected": null
+    },
+    "milestones[0]": {
+      "path": "milestones[0]",
+      "verdict": "ok",
+      "reason": "Milestone 1 details match the extracted values for title, deliverable, acceptance criteria, amount, and due date.",
+      "corrected": null
+    },
+    "milestones[1]": {
+      "path": "milestones[1]",
+      "verdict": "ok",
+      "reason": "Milestone 2 details match the extracted values for title, deliverable, acceptance criteria, amount, and due date.",
+      "corrected": null
+    },
+    "milestones[2]": {
+      "path": "milestones[2]",
+      "verdict": "ok",
+      "reason": "Milestone 3 details match the extracted values for title, deliverable, acceptance criteria, amount, and due date.",
+      "corrected": null
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "validators": {},
+  "checker": {
+    "currency": {
+      "path": "currency",
+      "verdict": "ok",
+      "reason": "The page clearly states the currency is GBP.",
+      "corrected": null
+    },
+    "total_amount": {
+      "path": "total_amount",
+      "verdict": "ok",
+      "reason": "The page clearly states the total fee is GBP 8,000.00.",
+      "corrected": null
+    },
+    "net_days": {
+      "path": "net_days",
+      "verdict": "ok",
+      "reason": "The page clearly states each invoice is payable within 10 days.",
+      "corrected": null
+    },
+    "late_fee": {
+      "path": "late_fee",
+      "verdict": "ok",
+      "reason": "The page accurately specifies a late fee of 2% per month with a grace period of 0 days.",
+      "corrected": null
+    },
+    "parties[0]": {
+      "path": "parties[0]",
+      "verdict": "ok",
+      "reason": "The page clearly identifies Kestrel Films as the agency with the corresponding email.",
+      "corrected": null
+    },
+    "parties[1]": {
+      "path": "parties[1]",
+      "verdict": "ok",
+      "reason": "The page clearly identifies Moorland Outdoor as the client with the corresponding email.",
+      "corrected": null
+    },
+    "parties[2]": {
+      "path": "parties[2]",
+      "verdict": "ok",
+      "reason": "The page clearly identifies Tom Reyes as a subcontractor receiving 30% with the corresponding email.",
+      "corrected": null
+    },
+    "milestones[0]": {
+      "path": "milestones[0]",
+      "verdict": "ok",
+      "reason": "The page accurately details Milestone 1 with all specified attributes.",
+      "corrected": null
+    },
+    "milestones[1]": {
+      "path": "milestones[1]",
+      "verdict": "ok",
+      "reason": "The page accurately details Milestone 2 with all specified attributes.",
+      "corrected": null
+    }
+  }
+}

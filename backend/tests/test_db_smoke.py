@@ -14,12 +14,18 @@ def test_all_tables_exist() -> None:
 
 def test_money_roundtrips_as_decimal() -> None:
     with SessionLocal() as db:
-        c = Contract(title="smoke", file_key="k", sha256="0" * 64)
+        c = Contract(title="smoke", file_key="k", sha256="0" * 64, pdf=b"%PDF")
         db.add(c)
         db.flush()
         m = Milestone(contract_id=c.id, seq=1, title="t", deliverable="d", amount=Decimal("0.10"))
-        g = GuardEvent(actor="test", action="noop", payload_json={}, decision="DENY",
-                       rule_ids=["G1", "G10"], reason="smoke")
+        g = GuardEvent(
+            actor="test",
+            action="noop",
+            payload_json={},
+            decision="DENY",
+            rule_ids=["G1", "G10"],
+            reason="smoke",
+        )
         db.add_all([m, g])
         db.flush()
         db.expire_all()

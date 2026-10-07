@@ -1,0 +1,131 @@
+{
+  "title": "Website Redesign Services Agreement",
+  "currency": "USD",
+  "total_amount": "10000.00",
+  "total_cite": {
+    "page": 2,
+    "quote": "The total fee for the services is USD 10,000.00.",
+    "confidence": 1.0
+  },
+  "parties": [
+    {
+      "role": "agency",
+      "name": "Pixel & Pine Studio",
+      "email": "billing@pixelpine.example",
+      "share_pct": null,
+      "cite": {
+        "page": 1,
+        "quote": "Pixel & Pine Studio (the \"Agency\", billing@pixelpine.example) will provide the services.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "role": "client",
+      "name": "Northwind Retail",
+      "email": "ap@northwind.example",
+      "share_pct": null,
+      "cite": {
+        "page": 1,
+        "quote": "Northwind Retail (the \"Client\", ap@northwind.example) engages the Agency.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "role": "subcontractor",
+      "name": "Ana Lima",
+      "email": "ana@lima.example",
+      "share_pct": "15",
+      "cite": {
+        "page": 2,
+        "quote": "Subcontractor Ana Lima (ana@lima.example) shall receive 15% of each milestone payment received by the Agency.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "role": "subcontractor",
+      "name": "Ben Okafor",
+      "email": "ben@okafor.example",
+      "share_pct": "10",
+      "cite": {
+        "page": 2,
+        "quote": "Subcontractor Ben Okafor (ben@okafor.example) shall receive 10% of each milestone payment received by the Agency.",
+        "confidence": 1.0
+      }
+    }
+  ],
+  "milestones": [
+    {
+      "seq": 1,
+      "title": "Discovery and design system",
+      "deliverable": "Figma design system and page wireframes",
+      "acceptance_criteria": [
+        "Figma file shared with client",
+        "Covers home, product and checkout pages"
+      ],
+      "amount": "4000.00",
+      "due_date": "2026-11-06",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 1 - Discovery and design system: Figma design system and page wireframes, fee USD 4,000.00, due 2026-11-06. Acceptance criteria: Figma file shared with client; Covers home, product and checkout pages.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 2,
+      "title": "Storefront build",
+      "deliverable": "Responsive storefront deployed to staging",
+      "acceptance_criteria": [
+        "Staging URL live",
+        "Lighthouse performance score of at least 85"
+      ],
+      "amount": "3500.00",
+      "due_date": "2026-11-27",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 2 - Storefront build: Responsive storefront deployed to staging, fee USD 3,500.00, due 2026-11-27. Acceptance criteria: Staging URL live; Lighthouse performance score of at least 85.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 3,
+      "title": "Launch and QA",
+      "deliverable": "Production launch with QA report",
+      "acceptance_criteria": [
+        "Site live on production domain",
+        "QA report with zero open critical bugs"
+      ],
+      "amount": "2500.00",
+      "due_date": "2026-12-18",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 3 - Launch and QA: Production launch with QA report, fee USD 2,500.00, due 2026-12-18. Acceptance criteria: Site live on production domain; QA report with zero open critical bugs.",
+        "confidence": 1.0
+      }
+    }
+  ],
+  "net_days": 15,
+  "net_days_cite": {
+    "page": 2,
+    "quote": "Each invoice is payable within 15 days of the invoice date.",
+    "confidence": 1.0
+  },
+  "late_fee": {
+    "type": "pct_monthly",
+    "value": "1.5",
+    "grace_days": 5,
+    "cap": "500.00",
+    "cite": {
+      "page": 2,
+      "quote": "Overdue amounts accrue a late fee of 1.5% per month after a grace period of 5 days, capped at USD 500.00 per invoice.",
+      "confidence": 1.0
+    }
+  },
+  "deposit_amount": null,
+  "auto_accept_days": null,
+  "auto_accept_cite": null,
+  "dispute_clause": {
+    "page": 2,
+    "quote": "Any billing dispute must be raised in writing within 10 days of the invoice date, citing the milestone concerned.",
+    "confidence": 1.0
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "title": "E-commerce Migration Agreement",
+  "currency": "EUR",
+  "total_amount": "12000.00",
+  "total_cite": {
+    "page": 2,
+    "quote": "The total fee for the services is EUR 12,000.00.",
+    "confidence": 1.0
+  },
+  "parties": [
+    {
+      "role": "agency",
+      "name": "Nordlicht Digital",
+      "email": "billing@nordlicht.example",
+      "share_pct": null,
+      "cite": {
+        "page": 1,
+        "quote": "Nordlicht Digital (the \"Agency\", billing@nordlicht.example) will provide the services.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "role": "client",
+      "name": "Alpenmode AG",
+      "email": "kreditoren@alpenmode.example",
+      "share_pct": null,
+      "cite": {
+        "page": 1,
+        "quote": "Alpenmode AG (the \"Client\", kreditoren@alpenmode.example) engages the Agency.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "role": "subcontractor",
+      "name": "Lukas Brandt",
+      "email": "lukas@brandt.example",
+      "share_pct": "20",
+      "cite": {
+        "page": 2,
+        "quote": "Subcontractor Lukas Brandt (lukas@brandt.example) shall receive 20% of each milestone payment received by the Agency.",
+        "confidence": 1.0
+      }
+    }
+  ],
+  "milestones": [
+    {
+      "seq": 1,
+      "title": "Catalog migration",
+      "deliverable": "All products migrated",
+      "acceptance_criteria": [
+        "All SKUs imported"
+      ],
+      "amount": "3000.00",
+      "due_date": "2026-11-20",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 1 - Catalog migration: All products migrated, fee EUR 3,000.00, due 2026-11-20. Acceptance criteria: All SKUs imported.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 2,
+      "title": "Checkout",
+      "deliverable": "Checkout and payments",
+      "acceptance_criteria": [
+        "Test orders succeed"
+      ],
+      "amount": "3500.00",
+      "due_date": "2026-12-20",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 2 - Checkout: Checkout and payments, fee EUR 3,500.00, due 2026-12-20. Acceptance criteria: Test orders succeed.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 3,
+      "title": "Go-live",
+      "deliverable": "Production cutover",
+      "acceptance_criteria": [
+        "DNS switched",
+        "No P1 incidents for 7 days"
+      ],
+      "amount": "3500.00",
+      "due_date": "2027-01-20",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 3 - Go-live: Production cutover, fee EUR 3,500.00, due 2027-01-20. Acceptance criteria: DNS switched; No P1 incidents for 7 days.",
+        "confidence": 1.0
+      }
+    }
+  ],
+  "net_days": 21,
+  "net_days_cite": {
+    "page": 2,
+    "quote": "Each invoice is payable within 21 days of the invoice date.",
+    "confidence": 1.0
+  },
+  "late_fee": {
+    "type": "pct_monthly",
+    "value": "1",
+    "grace_days": 7,
+    "cap": "300.00",
+    "cite": {
+      "page": 2,
+      "quote": "Overdue amounts accrue a late fee of 1% per month after a grace period of 7 days, capped at EUR 300.00 per invoice.",
+      "confidence": 1.0
+    }
+  },
+  "deposit_amount": "2000.00",
+  "auto_accept_days": null,
+  "auto_accept_cite": null,
+  "dispute_clause": {
+    "page": 2,
+    "quote": "Any billing dispute must be raised in writing within 10 days of the invoice date, citing the milestone concerned.",
+    "confidence": 1.0
+  }
+}

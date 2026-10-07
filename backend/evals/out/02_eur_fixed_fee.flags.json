@@ -1,0 +1,53 @@
+{
+  "validators": {},
+  "checker": {
+    "currency": {
+      "path": "currency",
+      "verdict": "ok",
+      "reason": "The page explicitly states the total fee currency as EUR.",
+      "corrected": null
+    },
+    "total_amount": {
+      "path": "total_amount",
+      "verdict": "ok",
+      "reason": "The page states the total fee is EUR 6,000.00.",
+      "corrected": null
+    },
+    "net_days": {
+      "path": "net_days",
+      "verdict": "ok",
+      "reason": "The page states each invoice is payable within 30 days.",
+      "corrected": null
+    },
+    "late_fee": {
+      "path": "late_fee",
+      "verdict": "ok",
+      "reason": "The page specifies a fixed late fee of EUR 50.00 applicable 10 days after the due date.",
+      "corrected": null
+    },
+    "parties[0]": {
+      "path": "parties[0]",
+      "verdict": "ok",
+      "reason": "The page correctly identifies Studio Kanal as the Agency with the given email.",
+      "corrected": null
+    },
+    "parties[1]": {
+      "path": "parties[1]",
+      "verdict": "ok",
+      "reason": "The page correctly identifies Baumhaus GmbH as the Client with the given email.",
+      "corrected": null
+    },
+    "milestones[0]": {
+      "path": "milestones[0]",
+      "verdict": "ok",
+      "reason": "The page correctly details Milestone 1 with title, deliverable, acceptance criteria, amount, and due date.",
+      "corrected": null
+    },
+    "milestones[1]": {
+      "path": "milestones[1]",
+      "verdict": "ok",
+      "reason": "The page correctly details Milestone 2 with title, deliverable, acceptance criteria, amount, and due date.",
+      "corrected": null
+    }
+  }
+}

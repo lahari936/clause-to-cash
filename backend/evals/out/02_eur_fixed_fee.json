@@ -1,0 +1,88 @@
+{
+  "title": "Brand Identity Agreement",
+  "currency": "EUR",
+  "total_amount": "6000.0",
+  "total_cite": {
+    "page": 2,
+    "quote": "The total fee for the services is EUR 6,000.00.",
+    "confidence": 1.0
+  },
+  "parties": [
+    {
+      "role": "agency",
+      "name": "Studio Kanal",
+      "email": "rechnung@kanal.example",
+      "share_pct": null,
+      "cite": {
+        "page": 1,
+        "quote": "Studio Kanal (the \"Agency\", rechnung@kanal.example) will provide the services.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "role": "client",
+      "name": "Baumhaus GmbH",
+      "email": "finance@baumhaus.example",
+      "share_pct": null,
+      "cite": {
+        "page": 1,
+        "quote": "Baumhaus GmbH (the \"Client\", finance@baumhaus.example) engages the Agency.",
+        "confidence": 1.0
+      }
+    }
+  ],
+  "milestones": [
+    {
+      "seq": 1,
+      "title": "Logo concepts",
+      "deliverable": "Three logo concepts",
+      "acceptance_criteria": [
+        "Three distinct concepts delivered as PDF"
+      ],
+      "amount": "2500.0",
+      "due_date": "2026-11-15",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 1 - Logo concepts: Three logo concepts, fee EUR 2,500.00, due 2026-11-15. Acceptance criteria: Three distinct concepts delivered as PDF.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 2,
+      "title": "Brand guidelines",
+      "deliverable": "Final logo and brand guideline PDF",
+      "acceptance_criteria": [
+        "Vector logo files",
+        "Guideline PDF of at least 20 pages"
+      ],
+      "amount": "3500.0",
+      "due_date": "2026-12-15",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 2 - Brand guidelines: Final logo and brand guideline PDF, fee EUR 3,500.00, due 2026-12-15. Acceptance criteria: Vector logo files; Guideline PDF of at least 20 pages.",
+        "confidence": 1.0
+      }
+    }
+  ],
+  "net_days": 30,
+  "net_days_cite": {
+    "page": 2,
+    "quote": "Each invoice is payable within 30 days of the invoice date.",
+    "confidence": 1.0
+  },
+  "late_fee": {
+    "type": "fixed",
+    "value": "50.0",
+    "grace_days": 10,
+    "cap": null,
+    "cite": {
+      "page": 2,
+      "quote": "A fixed late fee of EUR 50.00 applies to any invoice unpaid 10 days after its due date.",
+      "confidence": 1.0
+    }
+  },
+  "deposit_amount": null,
+  "auto_accept_days": null,
+  "auto_accept_cite": null,
+  "dispute_clause": null
+}

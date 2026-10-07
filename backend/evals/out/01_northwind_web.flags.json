@@ -1,0 +1,71 @@
+{
+  "validators": {},
+  "checker": {
+    "currency": {
+      "path": "currency",
+      "verdict": "ok",
+      "reason": "The page states the currency as USD.",
+      "corrected": null
+    },
+    "total_amount": {
+      "path": "total_amount",
+      "verdict": "ok",
+      "reason": "The page confirms the total fee is USD 10,000.00.",
+      "corrected": null
+    },
+    "net_days": {
+      "path": "net_days",
+      "verdict": "ok",
+      "reason": "The page specifies that each invoice is payable within 15 days.",
+      "corrected": null
+    },
+    "late_fee": {
+      "path": "late_fee",
+      "verdict": "ok",
+      "reason": "The page accurately describes the late fee terms.",
+      "corrected": null
+    },
+    "parties[0]": {
+      "path": "parties[0]",
+      "verdict": "ok",
+      "reason": "The page correctly identifies Pixel & Pine Studio as the agency.",
+      "corrected": null
+    },
+    "parties[1]": {
+      "path": "parties[1]",
+      "verdict": "ok",
+      "reason": "The page correctly identifies Northwind Retail as the client.",
+      "corrected": null
+    },
+    "parties[2]": {
+      "path": "parties[2]",
+      "verdict": "ok",
+      "reason": "The page correctly identifies Ana Lima as a subcontractor with a 15% share.",
+      "corrected": null
+    },
+    "parties[3]": {
+      "path": "parties[3]",
+      "verdict": "ok",
+      "reason": "The page correctly identifies Ben Okafor as a subcontractor with a 10% share.",
+      "corrected": null
+    },
+    "milestones[0]": {
+      "path": "milestones[0]",
+      "verdict": "ok",
+      "reason": "The page correctly outlines Milestone 1 details.",
+      "corrected": null
+    },
+    "milestones[1]": {
+      "path": "milestones[1]",
+      "verdict": "ok",
+      "reason": "The page correctly outlines Milestone 2 details.",
+      "corrected": null
+    },
+    "milestones[2]": {
+      "path": "milestones[2]",
+      "verdict": "ok",
+      "reason": "The page correctly outlines Milestone 3 details.",
+      "corrected": null
+    }
+  }
+}

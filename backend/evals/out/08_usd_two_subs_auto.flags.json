@@ -1,0 +1,77 @@
+{
+  "validators": {},
+  "checker": {
+    "currency": {
+      "path": "currency",
+      "verdict": "ok",
+      "reason": "The text clearly states the currency as USD.",
+      "corrected": null
+    },
+    "total_amount": {
+      "path": "total_amount",
+      "verdict": "ok",
+      "reason": "The total fee is correctly stated as 9,000.00.",
+      "corrected": null
+    },
+    "net_days": {
+      "path": "net_days",
+      "verdict": "ok",
+      "reason": "The payment term is correctly stated as payable within 20 days.",
+      "corrected": null
+    },
+    "late_fee": {
+      "path": "late_fee",
+      "verdict": "ok",
+      "reason": "The late fee details match the text with a fixed fee of USD 100.00 and 5 grace days.",
+      "corrected": null
+    },
+    "auto_accept_days": {
+      "path": "auto_accept_days",
+      "verdict": "ok",
+      "reason": "The auto acceptance period is clearly stated as 10 days.",
+      "corrected": null
+    },
+    "parties[0]": {
+      "path": "parties[0]",
+      "verdict": "ok",
+      "reason": "Copperleaf Labs is correctly identified as the agency with the specified email.",
+      "corrected": null
+    },
+    "parties[1]": {
+      "path": "parties[1]",
+      "verdict": "ok",
+      "reason": "Juniper Health is correctly identified as the client with the specified email.",
+      "corrected": null
+    },
+    "parties[2]": {
+      "path": "parties[2]",
+      "verdict": "ok",
+      "reason": "Mia Chen is correctly listed as a subcontractor receiving 12.5% with the specified email.",
+      "corrected": null
+    },
+    "parties[3]": {
+      "path": "parties[3]",
+      "verdict": "ok",
+      "reason": "Raj Patel is correctly listed as a subcontractor receiving 7.5% with the specified email.",
+      "corrected": null
+    },
+    "milestones[0]": {
+      "path": "milestones[0]",
+      "verdict": "ok",
+      "reason": "Milestone 1 details match the text regarding setup, amount, due date, and acceptance criteria.",
+      "corrected": null
+    },
+    "milestones[1]": {
+      "path": "milestones[1]",
+      "verdict": "ok",
+      "reason": "Milestone 2 details match the text regarding integrations, amount, due date, and acceptance criteria.",
+      "corrected": null
+    },
+    "milestones[2]": {
+      "path": "milestones[2]",
+      "verdict": "ok",
+      "reason": "Milestone 3 details match the text regarding training, amount, due date, and acceptance criteria.",
+      "corrected": null
+    }
+  }
+}

@@ -1,6 +1,7 @@
 """Gemini via REST (free tier). Same call_tool contract as anthropic_impl."""
 
 import json
+import time
 from typing import Any
 
 import httpx
@@ -43,12 +44,21 @@ def call_tool(
             "temperature": 0,
         },
     }
-    r = httpx.post(
-        URL.format(model=s.llm_model),
-        headers={"x-goog-api-key": s.gemini_api_key},
-        json=body,
-        timeout=120,
-    )
-    r.raise_for_status()
+    # LLM_MODEL may be a comma list: each free-tier model has its own quota, so fall through them.
+    models = [m.strip() for m in s.llm_model.split(",") if m.strip()]
+    for attempt in range(4):
+        for model in models:
+            r = httpx.post(
+                URL.format(model=model),
+                headers={"x-goog-api-key": s.gemini_api_key},
+                json=body,
+                timeout=120,
+            )
+            if r.status_code not in (404, 429, 500, 503):
+                break
+        else:
+            time.sleep(10 * 2**attempt)
+            continue
+        break
     text = r.json()["candidates"][0]["content"]["parts"][0]["text"]
     return "gemini", json.loads(text)

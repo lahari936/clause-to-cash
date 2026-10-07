@@ -1,3 +1,4 @@
+from decimal import Decimal
 from functools import lru_cache
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -14,10 +15,23 @@ class Settings(BaseSettings):
     paypal_base_url: str = SANDBOX_BASE
     paypal_webhook_id: str = ""
     llm_provider: str = "gemini"
-    llm_model: str = "gemini-2.5-flash"
+    # Comma list: on quota errors the next free-tier model is tried.
+    llm_model: str = (
+        "gemini-2.5-flash,gemini-3.5-flash-lite,gemini-3.1-flash-lite,"
+        "gemini-3.5-flash,gemini-flash-latest"
+    )
     anthropic_api_key: str = ""
     gemini_api_key: str = ""
     cors_origins: str = "http://localhost:5173"
+    # Sandbox accounts the approved mandate maps contract parties onto.
+    agency_email: str = ""
+    client_email: str = ""
+    sub_a_email: str = ""
+    sub_b_email: str = ""
+    approval_threshold: Decimal = Decimal("5000.00")
+    demo_clock: str = ""
+    github_webhook_secret: str = ""
+    disable_scheduler: bool = False
 
 
 @lru_cache

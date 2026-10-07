@@ -14,6 +14,7 @@ from sqlalchemy import (
     Float,
     ForeignKey,
     Integer,
+    LargeBinary,
     Numeric,
     String,
     Text,
@@ -53,6 +54,10 @@ class Contract(Base):
     currency: Mapped[str | None] = mapped_column(String(3))
     total_amount: Mapped[Decimal | None] = mapped_column(Money)
     created_at: Mapped[datetime] = _now()
+    # Render's free disk is ephemeral, so the PDF and its page texts live in Postgres.
+    pdf: Mapped[bytes] = mapped_column(LargeBinary, deferred=True)
+    pages_json: Mapped[list[str]] = mapped_column(JSON, default=list)
+    extraction_json: Mapped[dict[str, Any] | None] = mapped_column(JSON)
 
 
 class Party(Base):
@@ -140,13 +145,18 @@ class Mandate(Base):
 class Invoice(Base):
     __tablename__ = "invoices"
     id: Mapped[int] = _id()
+    contract_id: Mapped[int] = mapped_column(ForeignKey("contracts.id"))
     milestone_id: Mapped[int | None] = mapped_column(ForeignKey("milestones.id"))
+    base_invoice_id: Mapped[int | None] = mapped_column(ForeignKey("invoices.id"))
     kind: Mapped[str] = mapped_column(_enum("invoice_kind", "milestone", "late_fee"))
     paypal_invoice_id: Mapped[str | None] = mapped_column(String(64), unique=True)
     amount: Mapped[Decimal] = mapped_column(Money)
     due_date: Mapped[date | None] = mapped_column(Date)
     status: Mapped[str] = mapped_column(String(30), default="DRAFT")
     request_id: Mapped[str] = mapped_column(String(100), unique=True)
+    issued_on: Mapped[date | None] = mapped_column(Date)
+    reminded_on: Mapped[date | None] = mapped_column(Date)
+    paid_amount: Mapped[Decimal | None] = mapped_column(Money)
 
 
 class Payout(Base):
@@ -186,6 +196,7 @@ class GuardEvent(Base):
     __tablename__ = "guard_events"
     id: Mapped[int] = _id()
     ts: Mapped[datetime] = _now()
+    contract_id: Mapped[int | None] = mapped_column(ForeignKey("contracts.id"))
     actor: Mapped[str] = mapped_column(String(100))
     action: Mapped[str] = mapped_column(String(100))
     payload_json: Mapped[dict[str, Any]] = mapped_column(JSON)
@@ -195,17 +206,25 @@ class GuardEvent(Base):
     rule_ids: Mapped[list[str]] = mapped_column(ARRAY(String(10)), default=list)
     reason: Mapped[str] = mapped_column(Text)
     approved_by: Mapped[str | None] = mapped_column(String(200))
+    # pending | approved | rejected (only for NEEDS_APPROVAL rows)
+    resolution: Mapped[str | None] = mapped_column(String(20))
 
 
 class Dispute(Base):
     __tablename__ = "disputes"
     id: Mapped[int] = _id()
     paypal_dispute_id: Mapped[str] = mapped_column(String(64), unique=True)
+    contract_id: Mapped[int | None] = mapped_column(ForeignKey("contracts.id"))
     invoice_id: Mapped[int | None] = mapped_column(ForeignKey("invoices.id"))
     reason: Mapped[str | None] = mapped_column(String(100))
     status: Mapped[str] = mapped_column(String(50))
     evidence_pack_key: Mapped[str | None] = mapped_column(String(500))
     submitted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    evidence_md: Mapped[str | None] = mapped_column(Text)
+    evidence_pdf: Mapped[bytes | None] = mapped_column(LargeBinary, deferred=True)
+    proposed_response: Mapped[str | None] = mapped_column(Text)
+    dry_run: Mapped[bool] = mapped_column(Boolean, default=False)
+    raw_json: Mapped[dict[str, Any] | None] = mapped_column(JSON)
 
 
 class WebhookEvent(Base):
@@ -225,3 +244,4 @@ class Delivery(Base):
     links: Mapped[list[str]] = mapped_column(ARRAY(Text), default=list)
     source: Mapped[str] = mapped_column(_enum("delivery_source", "manual", "github"))
     acceptance_json: Mapped[dict[str, Any] | None] = mapped_column(JSON)
+    created_at: Mapped[datetime] = _now()

@@ -23,3 +23,13 @@ addopts = "-m 'not live'"
 
 [tool.ruff.lint.isort]
 known-third-party = ["alembic"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.File", "fastapi.Form"]
+
+[tool.ruff.lint.per-file-ignores]
+"evals/*" = ["E501"]
+
+[[tool.mypy.overrides]]
+module = ["apscheduler.*"]
+ignore_missing_imports = true

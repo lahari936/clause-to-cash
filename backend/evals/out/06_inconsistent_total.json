@@ -1,0 +1,102 @@
+{
+  "title": "Marketing Site Agreement",
+  "currency": "USD",
+  "total_amount": "10000.0",
+  "total_cite": {
+    "page": 2,
+    "quote": "The total fee for the services is USD 10,000.00.",
+    "confidence": 1.0
+  },
+  "parties": [
+    {
+      "role": "agency",
+      "name": "Lantern Creative",
+      "email": "money@lantern.example",
+      "share_pct": null,
+      "cite": {
+        "page": 1,
+        "quote": "Lantern Creative (the \"Agency\", money@lantern.example) will provide the services.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "role": "client",
+      "name": "Sable Coffee",
+      "email": "ap@sable.example",
+      "share_pct": null,
+      "cite": {
+        "page": 1,
+        "quote": "Sable Coffee (the \"Client\", ap@sable.example) engages the Agency.",
+        "confidence": 1.0
+      }
+    }
+  ],
+  "milestones": [
+    {
+      "seq": 1,
+      "title": "Copy and design",
+      "deliverable": "Homepage design",
+      "acceptance_criteria": [
+        "Design approved"
+      ],
+      "amount": "3000.0",
+      "due_date": "2026-11-05",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 1 - Copy and design: Homepage design, fee USD 3,000.00, due 2026-11-05. Acceptance criteria: Design approved.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 2,
+      "title": "Build",
+      "deliverable": "Site build",
+      "acceptance_criteria": [
+        "Staging live"
+      ],
+      "amount": "3000.0",
+      "due_date": "2026-11-25",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 2 - Build: Site build, fee USD 3,000.00, due 2026-11-25. Acceptance criteria: Staging live.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 3,
+      "title": "Launch",
+      "deliverable": "Launch",
+      "acceptance_criteria": [
+        "Production live"
+      ],
+      "amount": "3000.0",
+      "due_date": "2026-12-10",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 3 - Launch: Launch, fee USD 3,000.00, due 2026-12-10. Acceptance criteria: Production live.",
+        "confidence": 1.0
+      }
+    }
+  ],
+  "net_days": 15,
+  "net_days_cite": {
+    "page": 2,
+    "quote": "Each invoice is payable within 15 days of the invoice date.",
+    "confidence": 1.0
+  },
+  "late_fee": {
+    "type": "fixed",
+    "value": "75.0",
+    "grace_days": 3,
+    "cap": null,
+    "cite": {
+      "page": 2,
+      "quote": "A fixed late fee of USD 75.00 applies to any invoice unpaid 3 days after its due date.",
+      "confidence": 1.0
+    }
+  },
+  "deposit_amount": null,
+  "auto_accept_days": null,
+  "auto_accept_cite": null,
+  "dispute_clause": null
+}

@@ -1,0 +1,71 @@
+{
+  "validators": {},
+  "checker": {
+    "currency": {
+      "path": "currency",
+      "verdict": "ok",
+      "reason": "The text explicitly states the total fee is in GBP.",
+      "corrected": null
+    },
+    "total_amount": {
+      "path": "total_amount",
+      "verdict": "ok",
+      "reason": "The text clearly states the total fee is GBP 20,000.00.",
+      "corrected": null
+    },
+    "net_days": {
+      "path": "net_days",
+      "verdict": "ok",
+      "reason": "The text states that each invoice is payable within 14 days of the invoice date.",
+      "corrected": null
+    },
+    "late_fee": {
+      "path": "late_fee",
+      "verdict": "ok",
+      "reason": "The text mentions a one-time late fee of 5% with 0 days grace period.",
+      "corrected": null
+    },
+    "parties[0]": {
+      "path": "parties[0]",
+      "verdict": "ok",
+      "reason": "The text correctly identifies Hedgerow Apps Ltd as the Agency with the given email.",
+      "corrected": null
+    },
+    "parties[1]": {
+      "path": "parties[1]",
+      "verdict": "ok",
+      "reason": "The text correctly identifies Thames Fitness as the Client with the given email.",
+      "corrected": null
+    },
+    "parties[2]": {
+      "path": "parties[2]",
+      "verdict": "ok",
+      "reason": "The text states Priya Shah is a subcontractor receiving 25% of each milestone payment.",
+      "corrected": null
+    },
+    "milestones[0]": {
+      "path": "milestones[0]",
+      "verdict": "ok",
+      "reason": "The text correctly lists Milestone 1 details including title, deliverable, acceptance criteria, fee, and due date.",
+      "corrected": null
+    },
+    "milestones[1]": {
+      "path": "milestones[1]",
+      "verdict": "ok",
+      "reason": "The text correctly lists Milestone 2 details including title, deliverable, acceptance criteria, fee, and due date.",
+      "corrected": null
+    },
+    "milestones[2]": {
+      "path": "milestones[2]",
+      "verdict": "ok",
+      "reason": "The text correctly lists Milestone 3 details including title, deliverable, acceptance criteria, fee, and due date.",
+      "corrected": null
+    },
+    "milestones[3]": {
+      "path": "milestones[3]",
+      "verdict": "ok",
+      "reason": "The text correctly lists Milestone 4 details including title, deliverable, acceptance criteria, fee, and due date.",
+      "corrected": null
+    }
+  }
+}

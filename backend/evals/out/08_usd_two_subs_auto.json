@@ -1,0 +1,128 @@
+{
+  "title": "SaaS Onboarding Agreement",
+  "currency": "USD",
+  "total_amount": "9000.0",
+  "total_cite": {
+    "page": 2,
+    "quote": "The total fee for the services is USD 9,000.00.",
+    "confidence": 1.0
+  },
+  "parties": [
+    {
+      "role": "agency",
+      "name": "Copperleaf Labs",
+      "email": "ar@copperleaf.example",
+      "share_pct": null,
+      "cite": {
+        "page": 1,
+        "quote": "Copperleaf Labs (the \"Agency\", ar@copperleaf.example) will provide the services.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "role": "client",
+      "name": "Juniper Health",
+      "email": "vendors@juniper.example",
+      "share_pct": null,
+      "cite": {
+        "page": 1,
+        "quote": "Juniper Health (the \"Client\", vendors@juniper.example) engages the Agency.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "role": "subcontractor",
+      "name": "Mia Chen",
+      "email": "mia@chen.example",
+      "share_pct": "12.5",
+      "cite": {
+        "page": 2,
+        "quote": "Subcontractor Mia Chen (mia@chen.example) shall receive 12.5% of each milestone payment received by the Agency.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "role": "subcontractor",
+      "name": "Raj Patel",
+      "email": "raj@patel.example",
+      "share_pct": "7.5",
+      "cite": {
+        "page": 2,
+        "quote": "Subcontractor Raj Patel (raj@patel.example) shall receive 7.5% of each milestone payment received by the Agency.",
+        "confidence": 1.0
+      }
+    }
+  ],
+  "milestones": [
+    {
+      "seq": 1,
+      "title": "Setup",
+      "deliverable": "Tenant setup",
+      "acceptance_criteria": [
+        "Tenant provisioned"
+      ],
+      "amount": "2000.0",
+      "due_date": "2026-11-03",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 1 - Setup: Tenant setup, fee USD 2,000.00, due 2026-11-03. Acceptance criteria: Tenant provisioned.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 2,
+      "title": "Integrations",
+      "deliverable": "EHR integration",
+      "acceptance_criteria": [
+        "HL7 feed live"
+      ],
+      "amount": "4000.0",
+      "due_date": "2026-12-01",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 2 - Integrations: EHR integration, fee USD 4,000.00, due 2026-12-01. Acceptance criteria: HL7 feed live.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 3,
+      "title": "Training",
+      "deliverable": "Staff training",
+      "acceptance_criteria": [
+        "Three sessions delivered"
+      ],
+      "amount": "3000.0",
+      "due_date": "2026-12-15",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 3 - Training: Staff training, fee USD 3,000.00, due 2026-12-15. Acceptance criteria: Three sessions delivered.",
+        "confidence": 1.0
+      }
+    }
+  ],
+  "net_days": 20,
+  "net_days_cite": {
+    "page": 2,
+    "quote": "Each invoice is payable within 20 days of the invoice date.",
+    "confidence": 1.0
+  },
+  "late_fee": {
+    "type": "fixed",
+    "value": "100.0",
+    "grace_days": 5,
+    "cap": null,
+    "cite": {
+      "page": 2,
+      "quote": "A fixed late fee of USD 100.00 applies to any invoice unpaid 5 days after its due date.",
+      "confidence": 1.0
+    }
+  },
+  "deposit_amount": null,
+  "auto_accept_days": 10,
+  "auto_accept_cite": {
+    "page": 2,
+    "quote": "A milestone is deemed accepted if the Client raises no written objection within 10 days of delivery.",
+    "confidence": 1.0
+  },
+  "dispute_clause": null
+}

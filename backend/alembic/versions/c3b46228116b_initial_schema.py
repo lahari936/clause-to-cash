@@ -1,15 +1,15 @@
 """initial schema
 
-Revision ID: 2e939f8dd5d5
+Revision ID: c3b46228116b
 Revises:
-Create Date: 2026-10-07 18:31:40.499336
+Create Date: 2026-10-07 20:42:33.889663
 """
 
 from alembic import op
 import sqlalchemy as sa
 
 
-revision = "2e939f8dd5d5"
+revision = "c3b46228116b"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -38,25 +38,9 @@ def upgrade() -> None:
             server_default=sa.text("now()"),
             nullable=False,
         ),
-        sa.PrimaryKeyConstraint("id"),
-    )
-    op.create_table(
-        "guard_events",
-        sa.Column("id", sa.Integer(), nullable=False),
-        sa.Column(
-            "ts", sa.DateTime(timezone=True), server_default=sa.text("now()"), nullable=False
-        ),
-        sa.Column("actor", sa.String(length=100), nullable=False),
-        sa.Column("action", sa.String(length=100), nullable=False),
-        sa.Column("payload_json", sa.JSON(), nullable=False),
-        sa.Column(
-            "decision",
-            sa.Enum("ALLOW", "DENY", "NEEDS_APPROVAL", name="guard_decision"),
-            nullable=False,
-        ),
-        sa.Column("rule_ids", sa.ARRAY(sa.String(length=10)), nullable=False),
-        sa.Column("reason", sa.Text(), nullable=False),
-        sa.Column("approved_by", sa.String(length=200), nullable=True),
+        sa.Column("pdf", sa.LargeBinary(), nullable=False),
+        sa.Column("pages_json", sa.JSON(), nullable=False),
+        sa.Column("extraction_json", sa.JSON(), nullable=True),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
@@ -77,6 +61,31 @@ def upgrade() -> None:
         sa.Column("quote", sa.String(length=300), nullable=False),
         sa.Column("section_ref", sa.String(length=50), nullable=True),
         sa.ForeignKeyConstraint(["contract_id"], ["contracts.id"], ondelete="CASCADE"),
+        sa.PrimaryKeyConstraint("id"),
+    )
+    op.create_table(
+        "guard_events",
+        sa.Column("id", sa.Integer(), nullable=False),
+        sa.Column(
+            "ts", sa.DateTime(timezone=True), server_default=sa.text("now()"), nullable=False
+        ),
+        sa.Column("contract_id", sa.Integer(), nullable=True),
+        sa.Column("actor", sa.String(length=100), nullable=False),
+        sa.Column("action", sa.String(length=100), nullable=False),
+        sa.Column("payload_json", sa.JSON(), nullable=False),
+        sa.Column(
+            "decision",
+            sa.Enum("ALLOW", "DENY", "NEEDS_APPROVAL", name="guard_decision"),
+            nullable=False,
+        ),
+        sa.Column("rule_ids", sa.ARRAY(sa.String(length=10)), nullable=False),
+        sa.Column("reason", sa.Text(), nullable=False),
+        sa.Column("approved_by", sa.String(length=200), nullable=True),
+        sa.Column("resolution", sa.String(length=20), nullable=True),
+        sa.ForeignKeyConstraint(
+            ["contract_id"],
+            ["contracts.id"],
+        ),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
@@ -221,6 +230,12 @@ def upgrade() -> None:
         sa.Column("links", sa.ARRAY(sa.Text()), nullable=False),
         sa.Column("source", sa.Enum("manual", "github", name="delivery_source"), nullable=False),
         sa.Column("acceptance_json", sa.JSON(), nullable=True),
+        sa.Column(
+            "created_at",
+            sa.DateTime(timezone=True),
+            server_default=sa.text("now()"),
+            nullable=False,
+        ),
         sa.ForeignKeyConstraint(
             ["milestone_id"],
             ["milestones.id"],
@@ -230,13 +245,26 @@ def upgrade() -> None:
     op.create_table(
         "invoices",
         sa.Column("id", sa.Integer(), nullable=False),
+        sa.Column("contract_id", sa.Integer(), nullable=False),
         sa.Column("milestone_id", sa.Integer(), nullable=True),
+        sa.Column("base_invoice_id", sa.Integer(), nullable=True),
         sa.Column("kind", sa.Enum("milestone", "late_fee", name="invoice_kind"), nullable=False),
         sa.Column("paypal_invoice_id", sa.String(length=64), nullable=True),
         sa.Column("amount", sa.Numeric(precision=12, scale=2), nullable=False),
         sa.Column("due_date", sa.Date(), nullable=True),
         sa.Column("status", sa.String(length=30), nullable=False),
         sa.Column("request_id", sa.String(length=100), nullable=False),
+        sa.Column("issued_on", sa.Date(), nullable=True),
+        sa.Column("reminded_on", sa.Date(), nullable=True),
+        sa.Column("paid_amount", sa.Numeric(precision=12, scale=2), nullable=True),
+        sa.ForeignKeyConstraint(
+            ["base_invoice_id"],
+            ["invoices.id"],
+        ),
+        sa.ForeignKeyConstraint(
+            ["contract_id"],
+            ["contracts.id"],
+        ),
         sa.ForeignKeyConstraint(
             ["milestone_id"],
             ["milestones.id"],
@@ -249,11 +277,21 @@ def upgrade() -> None:
         "disputes",
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("paypal_dispute_id", sa.String(length=64), nullable=False),
+        sa.Column("contract_id", sa.Integer(), nullable=True),
         sa.Column("invoice_id", sa.Integer(), nullable=True),
         sa.Column("reason", sa.String(length=100), nullable=True),
         sa.Column("status", sa.String(length=50), nullable=False),
         sa.Column("evidence_pack_key", sa.String(length=500), nullable=True),
         sa.Column("submitted_at", sa.DateTime(timezone=True), nullable=True),
+        sa.Column("evidence_md", sa.Text(), nullable=True),
+        sa.Column("evidence_pdf", sa.LargeBinary(), nullable=True),
+        sa.Column("proposed_response", sa.Text(), nullable=True),
+        sa.Column("dry_run", sa.Boolean(), nullable=False),
+        sa.Column("raw_json", sa.JSON(), nullable=True),
+        sa.ForeignKeyConstraint(
+            ["contract_id"],
+            ["contracts.id"],
+        ),
         sa.ForeignKeyConstraint(
             ["invoice_id"],
             ["invoices.id"],
@@ -297,9 +335,9 @@ def downgrade() -> None:
     op.drop_table("parties")
     op.drop_table("mandates")
     op.drop_table("ledger_entries")
+    op.drop_table("guard_events")
     op.drop_table("clauses")
     op.drop_table("webhook_events")
-    op.drop_table("guard_events")
     op.drop_table("contracts")
     # ### end Alembic commands ###
     for t in (

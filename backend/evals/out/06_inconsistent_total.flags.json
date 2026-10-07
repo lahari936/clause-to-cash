@@ -1,0 +1,61 @@
+{
+  "validators": {
+    "total_amount": "milestones sum to 9000.0 but total minus deposit is 10000.0"
+  },
+  "checker": {
+    "currency": {
+      "path": "currency",
+      "verdict": "ok",
+      "reason": "The page explicitly states the total fee and late fees are in USD.",
+      "corrected": null
+    },
+    "total_amount": {
+      "path": "total_amount",
+      "verdict": "ok",
+      "reason": "The page states the total fee for the services is USD 10,000.00.",
+      "corrected": null
+    },
+    "net_days": {
+      "path": "net_days",
+      "verdict": "ok",
+      "reason": "The page states each invoice is payable within 15 days.",
+      "corrected": null
+    },
+    "late_fee": {
+      "path": "late_fee",
+      "verdict": "ok",
+      "reason": "The page mentions a fixed late fee of USD 75.00 applies 3 days after the due date.",
+      "corrected": null
+    },
+    "parties[0]": {
+      "path": "parties[0]",
+      "verdict": "ok",
+      "reason": "The page correctly identifies Lantern Creative as the agency with the given email.",
+      "corrected": null
+    },
+    "parties[1]": {
+      "path": "parties[1]",
+      "verdict": "ok",
+      "reason": "The page correctly identifies Sable Coffee as the client with the given email.",
+      "corrected": null
+    },
+    "milestones[0]": {
+      "path": "milestones[0]",
+      "verdict": "ok",
+      "reason": "The page accurately describes Milestone 1 details including title, deliverable, fee, and due date.",
+      "corrected": null
+    },
+    "milestones[1]": {
+      "path": "milestones[1]",
+      "verdict": "ok",
+      "reason": "The page accurately describes Milestone 2 details including title, deliverable, fee, and due date.",
+      "corrected": null
+    },
+    "milestones[2]": {
+      "path": "milestones[2]",
+      "verdict": "ok",
+      "reason": "The page accurately describes Milestone 3 details including title, deliverable, fee, and due date.",
+      "corrected": null
+    }
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "title": "Data Pipeline Consulting Agreement",
+  "currency": "USD",
+  "total_amount": "15000.0",
+  "total_cite": {
+    "page": 2,
+    "quote": "The total fee for the services is USD 15,000.00.",
+    "confidence": 1.0
+  },
+  "parties": [
+    {
+      "role": "agency",
+      "name": "Riverbend Data",
+      "email": "ar@riverbend.example",
+      "share_pct": null,
+      "cite": {
+        "page": 1,
+        "quote": "Riverbend Data (the \"Agency\", ar@riverbend.example) will provide the services.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "role": "client",
+      "name": "Cobalt Logistics",
+      "email": "ap@cobalt.example",
+      "share_pct": null,
+      "cite": {
+        "page": 1,
+        "quote": "Cobalt Logistics (the \"Client\", ap@cobalt.example) engages the Agency.",
+        "confidence": 1.0
+      }
+    }
+  ],
+  "milestones": [
+    {
+      "seq": 1,
+      "title": "Audit",
+      "deliverable": "Current-state audit",
+      "acceptance_criteria": [
+        "Audit report delivered."
+      ],
+      "amount": "2000.0",
+      "due_date": "2026-11-01",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 1 - Audit: Current-state audit, fee USD 2,000.00, due 2026-11-01. Acceptance criteria: Audit report delivered.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 2,
+      "title": "Design",
+      "deliverable": "Target architecture",
+      "acceptance_criteria": [
+        "Architecture document approved."
+      ],
+      "amount": "3000.0",
+      "due_date": "2026-11-20",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 2 - Design: Target architecture, fee USD 3,000.00, due 2026-11-20. Acceptance criteria: Architecture document approved.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 3,
+      "title": "Ingest",
+      "deliverable": "Ingestion jobs",
+      "acceptance_criteria": [
+        "Jobs running daily."
+      ],
+      "amount": "4000.0",
+      "due_date": "2026-12-10",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 3 - Ingest: Ingestion jobs, fee USD 4,000.00, due 2026-12-10. Acceptance criteria: Jobs running daily.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 4,
+      "title": "Dashboards",
+      "deliverable": "Ops dashboards",
+      "acceptance_criteria": [
+        "Five dashboards live."
+      ],
+      "amount": "3000.0",
+      "due_date": "2027-01-10",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 4 - Dashboards: Ops dashboards, fee USD 3,000.00, due 2027-01-10. Acceptance criteria: Five dashboards live.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 5,
+      "title": "Handover",
+      "deliverable": "Docs and training",
+      "acceptance_criteria": [
+        "Two training sessions held."
+      ],
+      "amount": "3000.0",
+      "due_date": "2027-01-31",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 5 - Handover: Docs and training, fee USD 3,000.00, due 2027-01-31. Acceptance criteria: Two training sessions held.",
+        "confidence": 1.0
+      }
+    }
+  ],
+  "net_days": 30,
+  "net_days_cite": {
+    "page": 2,
+    "quote": "Each invoice is payable within 30 days of the invoice date.",
+    "confidence": 1.0
+  },
+  "late_fee": {
+    "type": "none",
+    "value": "0",
+    "grace_days": 0,
+    "cap": null,
+    "cite": null
+  },
+  "deposit_amount": null,
+  "auto_accept_days": 7,
+  "auto_accept_cite": {
+    "page": 2,
+    "quote": "A milestone is deemed accepted if the Client raises no written objection within 7 days of delivery.",
+    "confidence": 1.0
+  },
+  "dispute_clause": null
+}

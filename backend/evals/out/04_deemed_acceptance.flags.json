@@ -1,0 +1,71 @@
+{
+  "validators": {},
+  "checker": {
+    "currency": {
+      "path": "currency",
+      "verdict": "ok",
+      "reason": "The page explicitly states the total fee is in USD.",
+      "corrected": null
+    },
+    "total_amount": {
+      "path": "total_amount",
+      "verdict": "ok",
+      "reason": "The page states the total fee for the services is USD 15,000.00.",
+      "corrected": null
+    },
+    "net_days": {
+      "path": "net_days",
+      "verdict": "ok",
+      "reason": "The page states each invoice is payable within 30 days.",
+      "corrected": null
+    },
+    "auto_accept_days": {
+      "path": "auto_accept_days",
+      "verdict": "ok",
+      "reason": "The page states a milestone is deemed accepted if no objection is raised within 7 days.",
+      "corrected": null
+    },
+    "parties[0]": {
+      "path": "parties[0]",
+      "verdict": "ok",
+      "reason": "The page lists Riverbend Data as the agency with the correct email.",
+      "corrected": null
+    },
+    "parties[1]": {
+      "path": "parties[1]",
+      "verdict": "ok",
+      "reason": "The page lists Cobalt Logistics as the client with the correct email.",
+      "corrected": null
+    },
+    "milestones[0]": {
+      "path": "milestones[0]",
+      "verdict": "ok",
+      "reason": "Milestone 1 details match the extracted values for audit.",
+      "corrected": null
+    },
+    "milestones[1]": {
+      "path": "milestones[1]",
+      "verdict": "ok",
+      "reason": "Milestone 2 details match the extracted values for design.",
+      "corrected": null
+    },
+    "milestones[2]": {
+      "path": "milestones[2]",
+      "verdict": "ok",
+      "reason": "Milestone 3 details match the extracted values for ingest.",
+      "corrected": null
+    },
+    "milestones[3]": {
+      "path": "milestones[3]",
+      "verdict": "ok",
+      "reason": "Milestone 4 details match the extracted values for dashboards.",
+      "corrected": null
+    },
+    "milestones[4]": {
+      "path": "milestones[4]",
+      "verdict": "ok",
+      "reason": "Milestone 5 details match the extracted values for handover.",
+      "corrected": null
+    }
+  }
+}

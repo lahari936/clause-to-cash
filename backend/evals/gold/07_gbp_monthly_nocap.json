@@ -1,0 +1,103 @@
+{
+  "title": "Video Production Agreement",
+  "currency": "GBP",
+  "total_amount": "8000.00",
+  "total_cite": {
+    "page": 2,
+    "quote": "The total fee for the services is GBP 8,000.00.",
+    "confidence": 1.0
+  },
+  "parties": [
+    {
+      "role": "agency",
+      "name": "Kestrel Films",
+      "email": "accounts@kestrel.example",
+      "share_pct": null,
+      "cite": {
+        "page": 1,
+        "quote": "Kestrel Films (the \"Agency\", accounts@kestrel.example) will provide the services.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "role": "client",
+      "name": "Moorland Outdoor",
+      "email": "finance@moorland.example",
+      "share_pct": null,
+      "cite": {
+        "page": 1,
+        "quote": "Moorland Outdoor (the \"Client\", finance@moorland.example) engages the Agency.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "role": "subcontractor",
+      "name": "Tom Reyes",
+      "email": "tom@reyes.example",
+      "share_pct": "30",
+      "cite": {
+        "page": 2,
+        "quote": "Subcontractor Tom Reyes (tom@reyes.example) shall receive 30% of each milestone payment received by the Agency.",
+        "confidence": 1.0
+      }
+    }
+  ],
+  "milestones": [
+    {
+      "seq": 1,
+      "title": "Shoot",
+      "deliverable": "Two shoot days",
+      "acceptance_criteria": [
+        "Raw footage delivered"
+      ],
+      "amount": "5000.00",
+      "due_date": "2026-11-12",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 1 - Shoot: Two shoot days, fee GBP 5,000.00, due 2026-11-12. Acceptance criteria: Raw footage delivered.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 2,
+      "title": "Edit",
+      "deliverable": "Final 90s edit",
+      "acceptance_criteria": [
+        "Final cut approved",
+        "Captions included"
+      ],
+      "amount": "3000.00",
+      "due_date": "2026-12-01",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 2 - Edit: Final 90s edit, fee GBP 3,000.00, due 2026-12-01. Acceptance criteria: Final cut approved; Captions included.",
+        "confidence": 1.0
+      }
+    }
+  ],
+  "net_days": 10,
+  "net_days_cite": {
+    "page": 2,
+    "quote": "Each invoice is payable within 10 days of the invoice date.",
+    "confidence": 1.0
+  },
+  "late_fee": {
+    "type": "pct_monthly",
+    "value": "2",
+    "grace_days": 0,
+    "cap": null,
+    "cite": {
+      "page": 2,
+      "quote": "Overdue amounts accrue a late fee of 2% per month after a grace period of 0 days.",
+      "confidence": 1.0
+    }
+  },
+  "deposit_amount": null,
+  "auto_accept_days": null,
+  "auto_accept_cite": null,
+  "dispute_clause": {
+    "page": 2,
+    "quote": "Any billing dispute must be raised in writing within 10 days of the invoice date, citing the milestone concerned.",
+    "confidence": 1.0
+  }
+}

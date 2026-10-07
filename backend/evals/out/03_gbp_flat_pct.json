@@ -1,0 +1,132 @@
+{
+  "title": "Mobile App Development Agreement",
+  "currency": "GBP",
+  "total_amount": "20000.0",
+  "total_cite": {
+    "page": 2,
+    "quote": "The total fee for the services is GBP 20,000.00.",
+    "confidence": 1.0
+  },
+  "parties": [
+    {
+      "role": "agency",
+      "name": "Hedgerow Apps Ltd",
+      "email": "accounts@hedgerow.example",
+      "share_pct": null,
+      "cite": {
+        "page": 1,
+        "quote": "Hedgerow Apps Ltd (the \"Agency\", accounts@hedgerow.example) will provide the services.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "role": "client",
+      "name": "Thames Fitness",
+      "email": "payables@thamesfit.example",
+      "share_pct": null,
+      "cite": {
+        "page": 1,
+        "quote": "Thames Fitness (the \"Client\", payables@thamesfit.example) engages the Agency.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "role": "subcontractor",
+      "name": "Priya Shah",
+      "email": "priya@shah.example",
+      "share_pct": "25.0",
+      "cite": {
+        "page": 2,
+        "quote": "Subcontractor Priya Shah (priya@shah.example) shall receive 25% of each milestone payment received by the Agency.",
+        "confidence": 1.0
+      }
+    }
+  ],
+  "milestones": [
+    {
+      "seq": 1,
+      "title": "Prototype",
+      "deliverable": "Clickable prototype",
+      "acceptance_criteria": [
+        "Prototype link shared."
+      ],
+      "amount": "4000.0",
+      "due_date": "2026-11-10",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 1 - Prototype: Clickable prototype, fee GBP 4,000.00, due 2026-11-10. Acceptance criteria: Prototype link shared.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 2,
+      "title": "Alpha",
+      "deliverable": "Alpha build on TestFlight",
+      "acceptance_criteria": [
+        "TestFlight build available."
+      ],
+      "amount": "6000.0",
+      "due_date": "2026-12-10",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 2 - Alpha: Alpha build on TestFlight, fee GBP 6,000.00, due 2026-12-10. Acceptance criteria: TestFlight build available.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 3,
+      "title": "Beta",
+      "deliverable": "Beta with payments",
+      "acceptance_criteria": [
+        "In-app payments working in test mode."
+      ],
+      "amount": "5000.0",
+      "due_date": "2027-01-15",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 3 - Beta: Beta with payments, fee GBP 5,000.00, due 2027-01-15. Acceptance criteria: In-app payments working in test mode.",
+        "confidence": 1.0
+      }
+    },
+    {
+      "seq": 4,
+      "title": "Release",
+      "deliverable": "App store release",
+      "acceptance_criteria": [
+        "App approved on both stores."
+      ],
+      "amount": "5000.0",
+      "due_date": "2027-02-15",
+      "cite": {
+        "page": 2,
+        "quote": "Milestone 4 - Release: App store release, fee GBP 5,000.00, due 2027-02-15. Acceptance criteria: App approved on both stores.",
+        "confidence": 1.0
+      }
+    }
+  ],
+  "net_days": 14,
+  "net_days_cite": {
+    "page": 2,
+    "quote": "Each invoice is payable within 14 days of the invoice date.",
+    "confidence": 1.0
+  },
+  "late_fee": {
+    "type": "pct_flat",
+    "value": "5.0",
+    "grace_days": 0,
+    "cap": null,
+    "cite": {
+      "page": 2,
+      "quote": "Invoices not paid within 0 days after the due date incur a one-time late fee of 5% of the invoice amount.",
+      "confidence": 1.0
+    }
+  },
+  "deposit_amount": null,
+  "auto_accept_days": null,
+  "auto_accept_cite": null,
+  "dispute_clause": {
+    "page": 2,
+    "quote": "Any billing dispute must be raised in writing within 10 days of the invoice date, citing the milestone concerned.",
+    "confidence": 1.0
+  }
+}
