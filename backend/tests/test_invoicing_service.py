@@ -12,7 +12,9 @@ ACCEPT = {"meets_criteria": True, "gaps": [], "summary_for_client": "Figma file 
 
 
 def first_milestone(db, c):  # type: ignore[no-untyped-def]
-    return db.scalars(select(Milestone).where(Milestone.contract_id == c.id).order_by(Milestone.seq)).first()
+    return db.scalars(
+        select(Milestone).where(Milestone.contract_id == c.id).order_by(Milestone.seq)
+    ).first()
 
 
 def test_accept_creates_and_sends_exact_invoice(db, llm, pp: respx.MockRouter) -> None:  # type: ignore[no-untyped-def]
@@ -26,7 +28,11 @@ def test_accept_creates_and_sends_exact_invoice(db, llm, pp: respx.MockRouter) -
 
     assert out.decision.decision == "ALLOW"
     inv = db.scalars(select(Invoice)).one()
-    assert (inv.status, inv.amount, inv.paypal_invoice_id) == ("SENT", D("4000.00"), "INV2-TEST-0001")
+    assert (inv.status, inv.amount, inv.paypal_invoice_id) == (
+        "SENT",
+        D("4000.00"),
+        "INV2-TEST-0001",
+    )
     assert m.status == "invoiced"
     body = json.loads(pp.routes[1].calls[0].request.read())
     assert body["items"][0]["unit_amount"] == {"currency_code": "USD", "value": "4000.00"}
@@ -77,7 +83,9 @@ def test_paid_triggers_exact_share_payouts(db, llm, pp: respx.MockRouter) -> Non
     assert [(p.amount, p.status) for p in payouts] == [(D("600.00"), "SENT"), (D("400.00"), "SENT")]
     batch = json.loads(pp.routes[4].calls[0].request.read())
     assert [(i["receiver"], i["amount"]["value"]) for i in batch["items"]] == [
-        ("ana@test.example", "600.00"), ("ben@test.example", "400.00")]
+        ("ana@test.example", "600.00"),
+        ("ben@test.example", "400.00"),
+    ]
     assert len(pp.routes[4].calls) == 1  # one batch, and not re-sent on the second sync
     types = db.scalars(select(LedgerEntry.type).order_by(LedgerEntry.id)).all()
     assert types == ["invoice_sent", "payment_received", "payout_sent", "payout_sent"]

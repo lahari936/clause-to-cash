@@ -4,19 +4,19 @@
     "currency": {
       "path": "currency",
       "verdict": "ok",
-      "reason": "The page clearly states the currency is GBP.",
+      "reason": "The page explicitly states the currency is GBP.",
       "corrected": null
     },
     "total_amount": {
       "path": "total_amount",
       "verdict": "ok",
-      "reason": "The page clearly states the total fee is GBP 8,000.00.",
+      "reason": "The page states the total fee is GBP 8,000.00.",
       "corrected": null
     },
     "net_days": {
       "path": "net_days",
       "verdict": "ok",
-      "reason": "The page clearly states each invoice is payable within 10 days.",
+      "reason": "The page states each invoice is payable within 10 days.",
       "corrected": null
     },
     "late_fee": {
@@ -28,31 +28,31 @@
     "parties[0]": {
       "path": "parties[0]",
       "verdict": "ok",
-      "reason": "The page clearly identifies Kestrel Films as the agency with the corresponding email.",
+      "reason": "The page correctly identifies Kestrel Films as the agency with accounts@kestrel.example.",
       "corrected": null
     },
     "parties[1]": {
       "path": "parties[1]",
       "verdict": "ok",
-      "reason": "The page clearly identifies Moorland Outdoor as the client with the corresponding email.",
+      "reason": "The page correctly identifies Moorland Outdoor as the client with finance@moorland.example.",
       "corrected": null
     },
     "parties[2]": {
       "path": "parties[2]",
       "verdict": "ok",
-      "reason": "The page clearly identifies Tom Reyes as a subcontractor receiving 30% with the corresponding email.",
+      "reason": "The page correctly identifies Tom Reyes as a subcontractor receiving 30%.",
       "corrected": null
     },
     "milestones[0]": {
       "path": "milestones[0]",
       "verdict": "ok",
-      "reason": "The page accurately details Milestone 1 with all specified attributes.",
+      "reason": "Milestone 1 details match the extracted values correctly.",
       "corrected": null
     },
     "milestones[1]": {
       "path": "milestones[1]",
       "verdict": "ok",
-      "reason": "The page accurately details Milestone 2 with all specified attributes.",
+      "reason": "Milestone 2 details match the extracted values correctly.",
       "corrected": null
     }
   }

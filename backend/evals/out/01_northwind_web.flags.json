@@ -4,67 +4,67 @@
     "currency": {
       "path": "currency",
       "verdict": "ok",
-      "reason": "The page states the currency as USD.",
+      "reason": "The page states the currency is USD.",
       "corrected": null
     },
     "total_amount": {
       "path": "total_amount",
       "verdict": "ok",
-      "reason": "The page confirms the total fee is USD 10,000.00.",
+      "reason": "The page states the total fee for the services is USD 10,000.00.",
       "corrected": null
     },
     "net_days": {
       "path": "net_days",
       "verdict": "ok",
-      "reason": "The page specifies that each invoice is payable within 15 days.",
+      "reason": "The page states each invoice is payable within 15 days of the invoice date.",
       "corrected": null
     },
     "late_fee": {
       "path": "late_fee",
       "verdict": "ok",
-      "reason": "The page accurately describes the late fee terms.",
+      "reason": "The page correctly specifies the late fee structure with 1.5% per month, 5 days grace period, and USD 500.00 cap.",
       "corrected": null
     },
     "parties[0]": {
       "path": "parties[0]",
       "verdict": "ok",
-      "reason": "The page correctly identifies Pixel & Pine Studio as the agency.",
+      "reason": "The page lists Pixel & Pine Studio as the agency with the correct email.",
       "corrected": null
     },
     "parties[1]": {
       "path": "parties[1]",
       "verdict": "ok",
-      "reason": "The page correctly identifies Northwind Retail as the client.",
+      "reason": "The page lists Northwind Retail as the client with the correct email.",
       "corrected": null
     },
     "parties[2]": {
       "path": "parties[2]",
       "verdict": "ok",
-      "reason": "The page correctly identifies Ana Lima as a subcontractor with a 15% share.",
+      "reason": "The page lists Ana Lima as a subcontractor with a 15% share and correct email.",
       "corrected": null
     },
     "parties[3]": {
       "path": "parties[3]",
       "verdict": "ok",
-      "reason": "The page correctly identifies Ben Okafor as a subcontractor with a 10% share.",
+      "reason": "The page lists Ben Okafor as a subcontractor with a 10% share and correct email.",
       "corrected": null
     },
     "milestones[0]": {
       "path": "milestones[0]",
       "verdict": "ok",
-      "reason": "The page correctly outlines Milestone 1 details.",
+      "reason": "The page correctly details Milestone 1 fields including title, deliverable, acceptance criteria, amount, and due date.",
       "corrected": null
     },
     "milestones[1]": {
       "path": "milestones[1]",
       "verdict": "ok",
-      "reason": "The page correctly outlines Milestone 2 details.",
+      "reason": "The page correctly details Milestone 2 fields including title, deliverable, acceptance criteria, amount, and due date.",
       "corrected": null
     },
     "milestones[2]": {
       "path": "milestones[2]",
       "verdict": "ok",
-      "reason": "The page correctly outlines Milestone 3 details.",
+      "reason": "The page correctly details Milestone 3 fields including title, deliverable, acceptance criteria, amount, and due date.",
       "corrected": null
     }
   }

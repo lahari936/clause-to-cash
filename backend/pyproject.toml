@@ -29,6 +29,7 @@ extend-immutable-calls = ["fastapi.Depends", "fastapi.File", "fastapi.Form"]
 
 [tool.ruff.lint.per-file-ignores]
 "evals/*" = ["E501"]
+"tests/*" = ["E501"]
 
 [[tool.mypy.overrides]]
 module = ["apscheduler.*"]

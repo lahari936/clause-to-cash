@@ -26,7 +26,12 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
 app = FastAPI(title="Clause-to-Cash", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[o.strip() for o in get_settings().cors_origins.split(",")],
+    # Render's fromService gives a bare host; accept "host" or "https://host".
+    allow_origins=[
+        o if o.startswith("http") else f"https://{o}"
+        for o in (x.strip() for x in get_settings().cors_origins.split(","))
+        if o
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )

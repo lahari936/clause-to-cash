@@ -20,14 +20,23 @@ M = MandateView(
     approval_threshold=D("5000.00"),
     late_fee=LateFeeTerms("pct_monthly", D("1.5"), 5, D("500.00")),
     parties={1: PartyView("client", CLIENT, None), 2: PartyView("subcontractor", "ana@x", D("15"))},
-    milestones={10: MilestoneView(D("4000.00"), "accepted"), 11: MilestoneView(D("3500.00"), "planned")},
+    milestones={
+        10: MilestoneView(D("4000.00"), "accepted"),
+        11: MilestoneView(D("3500.00"), "planned"),
+    },
 )
 S = State(today=date(2026, 11, 1), invoiced_total=D("0"), already_executed=False)
 
 
 def inv(**kw: object) -> Action:
-    base: dict[str, object] = dict(kind="milestone_invoice", contract_id=1, amount=D("4000.00"),
-                                   currency="USD", recipient=CLIENT, milestone_id=10)
+    base: dict[str, object] = dict(
+        kind="milestone_invoice",
+        contract_id=1,
+        amount=D("4000.00"),
+        currency="USD",
+        recipient=CLIENT,
+        milestone_id=10,
+    )
     return Action(**(base | kw))  # type: ignore[arg-type]
 
 

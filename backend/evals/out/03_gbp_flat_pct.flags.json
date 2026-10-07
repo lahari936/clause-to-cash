@@ -4,13 +4,13 @@
     "currency": {
       "path": "currency",
       "verdict": "ok",
-      "reason": "The text explicitly states the total fee is in GBP.",
+      "reason": "The text states the total fee is GBP 20,000.00.",
       "corrected": null
     },
     "total_amount": {
       "path": "total_amount",
       "verdict": "ok",
-      "reason": "The text clearly states the total fee is GBP 20,000.00.",
+      "reason": "The text explicitly mentions the total fee is GBP 20,000.00.",
       "corrected": null
     },
     "net_days": {
@@ -22,49 +22,49 @@
     "late_fee": {
       "path": "late_fee",
       "verdict": "ok",
-      "reason": "The text mentions a one-time late fee of 5% with 0 days grace period.",
+      "reason": "The text confirms a one-time late fee of 5% with 0 days grace period.",
       "corrected": null
     },
     "parties[0]": {
       "path": "parties[0]",
       "verdict": "ok",
-      "reason": "The text correctly identifies Hedgerow Apps Ltd as the Agency with the given email.",
+      "reason": "The text states Hedgerow Apps Ltd is the Agency with email accounts@hedgerow.example.",
       "corrected": null
     },
     "parties[1]": {
       "path": "parties[1]",
       "verdict": "ok",
-      "reason": "The text correctly identifies Thames Fitness as the Client with the given email.",
+      "reason": "The text states Thames Fitness is the Client with email payables@thamesfit.example.",
       "corrected": null
     },
     "parties[2]": {
       "path": "parties[2]",
       "verdict": "ok",
-      "reason": "The text states Priya Shah is a subcontractor receiving 25% of each milestone payment.",
+      "reason": "The text specifies subcontractor Priya Shah with email priya@shah.example receiving 25%.",
       "corrected": null
     },
     "milestones[0]": {
       "path": "milestones[0]",
       "verdict": "ok",
-      "reason": "The text correctly lists Milestone 1 details including title, deliverable, acceptance criteria, fee, and due date.",
+      "reason": "Milestone 1 details match the text forPrototype fee, deliverable, acceptance criteria and due date.",
       "corrected": null
     },
     "milestones[1]": {
       "path": "milestones[1]",
       "verdict": "ok",
-      "reason": "The text correctly lists Milestone 2 details including title, deliverable, acceptance criteria, fee, and due date.",
+      "reason": "Milestone 2 details match the text for Alpha fee, deliverable, acceptance criteria and due date.",
       "corrected": null
     },
     "milestones[2]": {
       "path": "milestones[2]",
       "verdict": "ok",
-      "reason": "The text correctly lists Milestone 3 details including title, deliverable, acceptance criteria, fee, and due date.",
+      "reason": "Milestone 3 details match the text for Beta fee, deliverable, acceptance criteria and due date.",
       "corrected": null
     },
     "milestones[3]": {
       "path": "milestones[3]",
       "verdict": "ok",
-      "reason": "The text correctly lists Milestone 4 details including title, deliverable, acceptance criteria, fee, and due date.",
+      "reason": "Milestone 4 details match the text for Release fee, deliverable, acceptance criteria and due date.",
       "corrected": null
     }
   }

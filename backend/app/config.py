@@ -1,13 +1,15 @@
 from decimal import Decimal
 from functools import lru_cache
+from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 SANDBOX_BASE = "https://api-m.sandbox.paypal.com"
+REPO_ENV = Path(__file__).resolve().parents[2] / ".env"  # works from any cwd
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=(".env", "../.env"), extra="ignore")
+    model_config = SettingsConfigDict(env_file=REPO_ENV, extra="ignore")
 
     database_url: str = "postgresql+psycopg://c2c:c2c@localhost:5432/c2c"
     paypal_client_id: str = ""

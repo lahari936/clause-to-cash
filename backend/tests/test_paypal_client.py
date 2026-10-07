@@ -39,17 +39,24 @@ def test_error_carries_debug_id(pp: respx.MockRouter) -> None:
     )
     with pytest.raises(PayPalError) as e:
         client().post("/v2/invoicing/invoices", "rid")
-    assert e.value.debug_id == "dbg123" and e.value.status == 403 and e.value.name == "NOT_AUTHORIZED"
+    assert (
+        e.value.debug_id == "dbg123" and e.value.status == 403 and e.value.name == "NOT_AUTHORIZED"
+    )
 
 
 def test_create_draft_and_status(pp: respx.MockRouter) -> None:
     create = pp.post("/v2/invoicing/invoices").respond(201, json={"id": "INV2-AAAA"})
     pp.get("/v2/invoicing/invoices/INV2-AAAA").respond(
-        json={"id": "INV2-AAAA", "status": "PAID", "payments": {"paid_amount": {"value": "4000.00"}}}
+        json={
+            "id": "INV2-AAAA",
+            "status": "PAID",
+            "payments": {"paid_amount": {"value": "4000.00"}},
+        }
     )
     c = client()
-    draft = invoices.InvoiceDraft("USD", D("4000"), "M1", "design", "client@x", date(2026, 11, 21),
-                                  "note", "C2C-1-M1")
+    draft = invoices.InvoiceDraft(
+        "USD", D("4000"), "M1", "design", "client@x", date(2026, 11, 21), "note", "C2C-1-M1"
+    )
     assert invoices.create_draft(c, "c2c-inv-1", draft) == "INV2-AAAA"
     body = json.loads(create.calls[0].request.read())
     assert body["items"][0]["unit_amount"]["value"] == "4000.00"
@@ -79,11 +86,18 @@ def test_payout_batch(pp: respx.MockRouter) -> None:
 
 def test_webhook_verify(pp: respx.MockRouter) -> None:
     route = pp.post("/v1/notifications/verify-webhook-signature").mock(
-        side_effect=[httpx.Response(200, json={"verification_status": "SUCCESS"}),
-                     httpx.Response(200, json={"verification_status": "FAILURE"})]
+        side_effect=[
+            httpx.Response(200, json={"verification_status": "SUCCESS"}),
+            httpx.Response(200, json={"verification_status": "FAILURE"}),
+        ]
     )
-    h = {"PAYPAL-AUTH-ALGO": "a", "PAYPAL-CERT-URL": "u", "PAYPAL-TRANSMISSION-ID": "t",
-         "PAYPAL-TRANSMISSION-SIG": "s", "PAYPAL-TRANSMISSION-TIME": "tt"}
+    h = {
+        "PAYPAL-AUTH-ALGO": "a",
+        "PAYPAL-CERT-URL": "u",
+        "PAYPAL-TRANSMISSION-ID": "t",
+        "PAYPAL-TRANSMISSION-SIG": "s",
+        "PAYPAL-TRANSMISSION-TIME": "tt",
+    }
     assert webhooks.verify(client(), h, {"id": "WH-1"}, "WHID") is True
     assert webhooks.verify(client(), h, {"id": "WH-1"}, "WHID") is False
     assert webhooks.verify(client(), {}, {"id": "WH-1"}, "WHID") is False  # no headers: no call

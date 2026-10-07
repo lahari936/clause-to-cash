@@ -9,4 +9,3 @@ node_modules/
 frontend/dist/
 artifacts/
 *.egg-info/
-evals/out/
