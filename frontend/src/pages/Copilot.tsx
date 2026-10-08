@@ -101,7 +101,7 @@ export default function Copilot() {
           <ul className="space-y-2">
             {EXAMPLES.map((e) => (
               <li key={e}>
-                <button className="text-left text-sm text-indigo-700 hover:underline" onClick={() => setMsg(e)}>
+                <button className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-left text-sm text-pp-navy transition-colors hover:border-indigo-400 hover:bg-indigo-50" onClick={() => setMsg(e)}>
                   {e}
                 </button>
               </li>

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { api, send } from '../api/client'
 import type { ActionResult, ContractDetail, Delivery, Invoice, Milestone, Payout } from '../api/types'
 import MilestoneGantt from '../components/MilestoneGantt'
-import { Button, Card, Empty, ErrorNote, GuardResult, Loading, money, Pill } from '../components/ui'
+import { Button, buttonClass, Card, Empty, ErrorNote, GuardResult, Loading, money, Pill } from '../components/ui'
 
 function DeliverForm({ m, onDone }: { m: Milestone; onDone: () => void }) {
   const [notes, setNotes] = useState('')
@@ -134,7 +134,7 @@ export default function ContractPage({ id }: { id: number }) {
   if (d.status !== 'approved')
     return (
       <Empty>
-        Approve the mandate first. <a className="text-indigo-700 underline" href={`#/review/${id}`}>Go to review</a>
+        Approve the mandate first. <a className={`ml-2 ${buttonClass('primary', 'sm')}`} href={`#/review/${id}`}>Go to review</a>
       </Empty>
     )
   const invIds = new Set(invoices.data?.map((i) => i.id))
@@ -145,7 +145,7 @@ export default function ContractPage({ id }: { id: number }) {
         <h1 className="text-2xl font-bold tracking-tight text-pp-navy sm:text-3xl">{d.title}</h1>
         <Pill value={d.status} />
         <span className="text-sm text-slate-600">{money(d.total_amount, d.currency)}</span>
-        <a className="ml-auto text-sm text-indigo-700 underline" href={`#/review/${id}`}>
+        <a className={`ml-auto ${buttonClass('ghost', 'sm')}`} href={`#/review/${id}`}>
           Terms & citations
         </a>
       </div>
@@ -241,7 +241,7 @@ export default function ContractPage({ id }: { id: number }) {
                   </td>
                   <td className="text-right">
                     {i.status === 'SENT' && (
-                      <button className="text-xs text-indigo-700 underline" onClick={() => sync.mutate(i.id)}>
+                      <button className={buttonClass('ghost', 'sm')} onClick={() => sync.mutate(i.id)}>
                         check PayPal
                       </button>
                     )}

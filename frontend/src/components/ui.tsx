@@ -65,16 +65,25 @@ export function CitationChip({ cite, onOpen }: { cite: Cited | null | undefined;
   )
 }
 
-/** tone="pay" (PayPal gold) is reserved for buttons that move money. */
-export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement> & { tone?: 'primary' | 'ghost' | 'danger' | 'pay' }) {
-  const { tone = 'primary', className = '', ...rest } = props
-  const tones = {
-    primary: 'bg-indigo-600 text-white shadow-sm hover:bg-indigo-700 disabled:bg-slate-300 disabled:shadow-none',
-    ghost: 'border border-indigo-600 bg-white text-indigo-600 hover:bg-indigo-50 disabled:border-slate-300 disabled:text-slate-300',
-    danger: 'bg-rose-600 text-white hover:bg-rose-700 disabled:bg-slate-300',
-    pay: 'bg-pp-gold text-pp-navy shadow-sm hover:brightness-95 disabled:bg-slate-300 disabled:text-white disabled:shadow-none',
-  }
-  return <button {...rest} className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors active:scale-[0.98] disabled:cursor-not-allowed ${tones[tone]} ${className}`} />
+type Tone = 'primary' | 'ghost' | 'danger' | 'pay' | 'quiet'
+const TONES: Record<Tone, string> = {
+  primary: 'bg-indigo-600 text-white shadow-sm hover:bg-indigo-700 disabled:bg-slate-300 disabled:shadow-none',
+  ghost: 'border border-indigo-600 bg-white text-indigo-600 hover:bg-indigo-50 disabled:border-slate-300 disabled:text-slate-300',
+  danger: 'bg-rose-600 text-white hover:bg-rose-700 disabled:bg-slate-300',
+  // PayPal gold is reserved for actions that move money.
+  pay: 'bg-pp-gold text-pp-navy shadow-sm hover:brightness-95 disabled:bg-slate-300 disabled:text-white disabled:shadow-none',
+  quiet: 'text-slate-600 hover:bg-slate-100 hover:text-pp-navy',
+}
+
+/** Shared by <Button> and link-styled-as-button <a>s. */
+export function buttonClass(tone: Tone = 'primary', size: 'md' | 'sm' = 'md'): string {
+  const pad = size === 'sm' ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-sm'
+  return `inline-flex items-center justify-center gap-1.5 rounded-full font-semibold transition-colors active:scale-[0.98] disabled:cursor-not-allowed ${pad} ${TONES[tone]}`
+}
+
+export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement> & { tone?: Tone; size?: 'md' | 'sm' }) {
+  const { tone = 'primary', size = 'md', className = '', ...rest } = props
+  return <button {...rest} className={`${buttonClass(tone, size)} ${className}`} />
 }
 
 export function Card({ title, children, right }: { title?: ReactNode; children: ReactNode; right?: ReactNode }) {

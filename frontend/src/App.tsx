@@ -47,7 +47,7 @@ function DemoClock() {
         value={clock.data?.today ?? ''}
         onChange={(e) => set.mutate(e.target.value || null)}
       />
-      <button className="underline" onClick={() => set.mutate(null)}>
+      <button className="rounded-full border border-white/30 px-3 py-1 text-white/90 transition-colors hover:bg-white/10" onClick={() => set.mutate(null)}>
         reset
       </button>
     </label>

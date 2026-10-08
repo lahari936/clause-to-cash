@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { api, BASE, send } from '../api/client'
 import type { Dispute, Invoice } from '../api/types'
-import { Button, Card, Empty, ErrorNote, Loading, money, Pill } from '../components/ui'
+import { Button, buttonClass, Card, Empty, ErrorNote, Loading, money, Pill } from '../components/ui'
 
 export default function Disputes() {
   const qc = useQueryClient()
@@ -63,7 +63,7 @@ export default function Disputes() {
               <div>
                 <h3 className="mb-1 text-xs font-semibold uppercase text-slate-500">Evidence pack</h3>
                 <pre className="max-h-96 overflow-auto whitespace-pre-wrap rounded bg-slate-50 p-3 text-xs">{d.evidence_md ?? 'not built'}</pre>
-                <a className="mt-2 inline-block text-sm text-indigo-700 underline" href={`${BASE}/disputes/${d.id}/pdf`} target="_blank" rel="noreferrer">
+                <a className={`mt-3 ${buttonClass('ghost', 'sm')}`} href={`${BASE}/disputes/${d.id}/pdf`} target="_blank" rel="noreferrer">
                   Download evidence PDF
                 </a>
               </div>

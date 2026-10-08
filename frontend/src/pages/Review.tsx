@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { api, send } from '../api/client'
 import type { Cited, ContractDetail, Field } from '../api/types'
-import { Button, Card, CitationChip, Empty, ErrorNote, Loading, money, Pill } from '../components/ui'
+import { Button, buttonClass, Card, CitationChip, Empty, ErrorNote, Loading, money, Pill } from '../components/ui'
 
 function citeFor(x: ContractDetail['extraction_json'] | null, path: string): Cited | null | undefined {
   if (!x) return null
@@ -187,7 +187,7 @@ export default function Review({ id }: { id: number }) {
           <Pill value={d.status} />
           {d.total_amount && <span className="text-sm text-slate-600">{money(d.total_amount, d.currency)}</span>}
           {approved && (
-            <a className="ml-auto text-sm text-indigo-700 underline" href={`#/contract/${id}`}>
+            <a className={`ml-auto ${buttonClass('primary', 'sm')}`} href={`#/contract/${id}`}>
               Operate this contract →
             </a>
           )}
