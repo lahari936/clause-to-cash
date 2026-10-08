@@ -9,7 +9,7 @@ All commands run from `backend/` with the venv active unless noted. Results from
 - [x] 0.1 Repo scaffold — `pytest -q && ruff check .` → pass; `cd frontend && npm run build` → built.
 - [x] 0.2 Postgres + Alembic — `alembic upgrade head && alembic downgrade base && alembic upgrade head` → ok;
   `pytest tests/test_db_smoke.py -q` → 2 passed.
-- [ ] 0.3 PayPal sandbox — `python scripts/paypal_check.py` → token OK, then **403 NOT_AUTHORIZED** on
+- [x] 0.3 PayPal sandbox — `python scripts/paypal_check.py` → `token ok, expires_in=31731s`, `next invoice number: 0004` (2026-10-08). Earlier: **403 NOT_AUTHORIZED** on
   `generate-next-invoice-number`. Needs: tick **Invoicing** (and Payouts) under the sandbox app's
   Features, and put the real sandbox account emails in `.env`. (owner)
 - [x] 0.4 LLM provider — `pytest tests/test_llm_provider.py -q` → 3 passed; `pytest -m live tests/test_llm_provider.py` → 1 passed (Gemini).
@@ -32,9 +32,10 @@ All commands run from `backend/` with the venv active unless noted. Results from
 - [x] 2.1 Money — `pytest tests/test_money.py -q` → 20 passed (cap, grace, zero fee, rounding, splits).
 - [x] 2.2 Guard — `pytest tests/test_guard.py -q && mypy --strict app/guard` → 14 passed; no issues.
 - [x] 2.3 PayPal client — `pytest tests/test_paypal_client.py -q && mypy --strict app/paypal` → 7 passed; no issues.
-- [~] 2.4 Invoicing service — `pytest tests/test_invoicing_service.py -q` → 4 passed.
+- [x] 2.4 Invoicing service — `pytest tests/test_invoicing_service.py -q` → 4 passed. Live `python scripts/demo_invoice.py` → ALLOW, sandbox invoice **INV2-8XQ8-PRPM-VCDH-FBVN** ($4,000.00, clause in notes) SENT.
   Live `python scripts/demo_invoice.py` blocked by the 0.3 permission (UI shows `PayPal 403 NOT_AUTHORIZED … debug_id`).
-- [~] 2.5 Webhooks — `pytest tests/test_webhooks.py -q` → 4 passed (verify → store → dedupe → dispatch; unverified stored, not processed).
+- [x] 2.5 Webhooks (live payment via poll) — paid as sandbox client; `python scripts/assert_paid.py INV2-8XQ8-PRPM-VCDH-FBVN` → `PAID … ledger ['invoice_sent', 'payment_received']`. Webhook registration pending Render URL.
+- 2.5 tests — `pytest tests/test_webhooks.py -q` → 4 passed (verify → store → dedupe → dispatch; unverified stored, not processed).
   Live: pay the sandbox invoice as the client, then `python scripts/assert_paid.py <INV2-…>`. (owner, after 0.3)
 - [x] 2.6 Milestones UI — Contract page with milestone timeline (status colours, today marker), deliver dialog,
   accept/retry, invoices, payouts; Ledger page with AG Grid. Build ok; checked in browser.
@@ -43,7 +44,8 @@ All commands run from `backend/` with the venv active unless noted. Results from
 - [x] 3.1 Acceptance agent — `pytest tests/test_acceptance.py -q` → 4 passed; `-m live` → 3 fixtures correct on Gemini.
   Manual: real delivery in the UI → "✓ meets criteria" with client summary.
 - [x] 3.2 GitHub hook — `pytest tests/test_github_hook.py -q` → 3 passed (HMAC, merged PR + `milestone:<id>` label).
-- [~] 3.3 Payouts — exact shares through G7/G8/G9 in one batch, tested in `test_invoicing_service.py`.
+- [~] 3.3 Payouts — live: Guard ALLOWed $600.00 / $400.00, PayPal refused `403 PAYOUT_NOT_AVAILABLE` (India business account can't send payouts; nothing moved; rows held as NEEDS_REVIEW). Needs app on the US business account.
+- 3.3 tests — exact shares through G7/G8/G9 in one batch, tested in `test_invoicing_service.py`.
   Live `python scripts/demo_payout.py` after a sandbox payment. (owner, after 0.3)
 - [~] 3.4 Collections — `pytest tests/test_collections.py -q` → 3 passed (reminder in grace, $60.00 late fee after grace,
   one fee per invoice, hand-crafted wrong fee DENY G6). Live late-fee invoice id pending 0.3.
