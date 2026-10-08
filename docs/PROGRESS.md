@@ -66,7 +66,7 @@ All commands run from `backend/` with the venv active unless noted. Results from
   `pytest -q && ruff check . && mypy --strict app/guard app/paypal && npm run build` → 107 passed, all clean.
 
 ## Phase 5 — Ship (owner)
-- [~] 5.1 Deployed: API https://c2c-api-sw1p.onrender.com, web https://c2c-web.onrender.com. Hosted upload + live Gemini extraction of the Northwind contract → `review`, 0 flags. Pending: PayPal webhook registration (Webhook ID still `pending`).
+- [~] 5.1 Deployed: API https://c2c-api-sw1p.onrender.com, web https://c2c-web.onrender.com. Hosted upload + live Gemini extraction of the Northwind contract → `review`, 0 flags. PayPal webhook registered (All Events) → `https://c2c-api-sw1p.onrender.com/webhooks/paypal`, id `8YK56573Y6336334E`; set `PAYPAL_WEBHOOK_ID` in Render.
 - [x] 5.2 README.
 - [ ] 5.3 Demo video (script: `docs/DEMO_SCRIPT.md`).
 - [ ] 5.4 Devpost submission.
@@ -87,7 +87,7 @@ All commands run from `backend/` with the venv active unless noted. Results from
 - Business (agency) account email: (set in .env)
 - Client account email: (set in .env)
 - Subcontractor A / B emails: (set in .env)
-- Webhook id: (after Render deploy)
+- Webhook id: 8YK56573Y6336334E (US app `Clause-to-Cash`)
 
 ## Local dev notes
 - Port 5432 on the dev laptop is taken by another Postgres; local `.env` uses 5433 (pgserver binaries, Postgres 16.2).
