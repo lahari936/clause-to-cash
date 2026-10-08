@@ -13,7 +13,7 @@ All commands run from `backend/` with the venv active unless noted. Results from
   `generate-next-invoice-number`. Needs: tick **Invoicing** (and Payouts) under the sandbox app's
   Features, and put the real sandbox account emails in `.env`. (owner)
 - [x] 0.4 LLM provider — `pytest tests/test_llm_provider.py -q` → 3 passed; `pytest -m live tests/test_llm_provider.py` → 1 passed (Gemini).
-- [ ] 0.5 Render deploy — `render.yaml` ready (all free plans, `/health`). Needs a Render Blueprint created by the owner.
+- [x] 0.5 Render deploy — Blueprint live (2026-10-08): `curl https://c2c-api-sw1p.onrender.com/health` → `{"ok":true}`; site https://c2c-web.onrender.com; CORS verified.
 
 ## Phase 1 — Contract → verified extraction
 - [x] 1.1 Eval set — 8 contracts (USD/EUR/GBP, 2–5 milestones, pct_monthly/pct_flat/fixed/none, deposits,
@@ -66,7 +66,7 @@ All commands run from `backend/` with the venv active unless noted. Results from
   `pytest -q && ruff check . && mypy --strict app/guard app/paypal && npm run build` → 107 passed, all clean.
 
 ## Phase 5 — Ship (owner)
-- [ ] 5.1 Deploy on Render (Blueprint), set webhook URL `https://<api>.onrender.com/webhooks/paypal`.
+- [~] 5.1 Deployed: API https://c2c-api-sw1p.onrender.com, web https://c2c-web.onrender.com. Hosted upload + live Gemini extraction of the Northwind contract → `review`, 0 flags. Pending: PayPal webhook registration (Webhook ID still `pending`).
 - [x] 5.2 README.
 - [ ] 5.3 Demo video (script: `docs/DEMO_SCRIPT.md`).
 - [ ] 5.4 Devpost submission.
