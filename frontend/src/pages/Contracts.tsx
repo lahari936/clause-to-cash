@@ -133,7 +133,7 @@ export default function Contracts() {
               <ul className="divide-y divide-slate-100">
                 {list.data.map((c) => (
                   <li key={c.id} className="flex flex-wrap items-center gap-x-4 gap-y-2 py-3">
-                    <div className="min-w-0 flex-1">
+                    <div className="min-w-[12rem] flex-1">
                       <a href={`#/review/${c.id}`} className="block truncate font-semibold text-pp-navy hover:underline">
                         {c.title}
                       </a>

@@ -67,7 +67,7 @@ function useScrolled(): boolean {
 export default function App() {
   const [page, id] = useHash()
   const scrolled = useScrolled()
-  const health = useQuery({ queryKey: ['health'], queryFn: () => api<{ ok: boolean }>('/health'), retry: 1 })
+  const health = useQuery({ queryKey: ['health'], queryFn: () => api<{ ok: boolean }>('/health'), retry: 8, retryDelay: 5000 }) // free tier cold start ~50s
   let body
   if (page === 'review' && id) body = <Review id={Number(id)} />
   else if (page === 'contract' && id) body = <ContractPage id={Number(id)} />
@@ -99,7 +99,7 @@ export default function App() {
           <div className="ml-auto flex items-center gap-4">
             <DemoClock />
             <span className={`text-xs ${health.data?.ok ? 'text-emerald-400' : 'text-rose-400'}`}>
-              ● API {health.isPending ? '…' : health.data?.ok ? 'online' : 'offline'}
+              ● API {health.isPending ? 'waking up…' : health.data?.ok ? 'online' : 'offline'}
             </span>
           </div>
         </div>
