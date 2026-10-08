@@ -1,6 +1,7 @@
 const RAW = (import.meta.env.VITE_API_URL as string | undefined) || 'http://localhost:8000'
-// Render's fromService passes a bare host name; add the scheme when it's missing.
-export const BASE = RAW.startsWith('http') ? RAW : `https://${RAW}`
+// Render's fromService passes a bare service name ("c2c-api-sw1p"); expand it to the public URL.
+const HOST = RAW.includes('.') || RAW.includes('localhost') ? RAW : `${RAW}.onrender.com`
+export const BASE = HOST.startsWith('http') ? HOST : `https://${HOST}`
 
 export class ApiError extends Error {}
 

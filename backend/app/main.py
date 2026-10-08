@@ -26,9 +26,9 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
 app = FastAPI(title="Clause-to-Cash", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
-    # Render's fromService gives a bare host; accept "host" or "https://host".
+    # Render's fromService gives a bare service name; accept "name", "host" or "https://host".
     allow_origins=[
-        o if o.startswith("http") else f"https://{o}"
+        o if o.startswith("http") else f"https://{o if '.' in o else o + '.onrender.com'}"
         for o in (x.strip() for x in get_settings().cors_origins.split(","))
         if o
     ],
