@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { api, send } from '../api/client'
 import type { Contract } from '../api/types'
-import { Button, Card, Empty, ErrorNote, Pill } from '../components/ui'
+import { Button, Card, Empty, ErrorNote, Pill, RuleStrip } from '../components/ui'
 
 interface Reply {
   reply: string
@@ -51,8 +51,10 @@ export default function Copilot() {
                       <span className="text-slate-500">{JSON.stringify(a.args)}</span>
                       {'decision' in a.result ? (
                         <div className="mt-1">
-                          <Pill value={a.result.decision as string} />{' '}
-                          <span className="font-mono">{(a.result.rule_ids as string[]).join(' ')}</span>
+                          <span className="flex flex-wrap items-center gap-2">
+                            <Pill value={a.result.decision as string} />
+                            <RuleStrip decision={a.result.decision as string} ruleIds={a.result.rule_ids as string[]} />
+                          </span>
                           <div className="mt-1 text-slate-700">{a.result.reason as string}</div>
                         </div>
                       ) : (

@@ -183,7 +183,7 @@ export default function Review({ id }: { id: number }) {
     <div className="grid gap-4 lg:grid-cols-[1fr_380px]">
       <div className="space-y-4">
         <div className="flex flex-wrap items-center gap-3">
-          <h1 className="text-xl font-semibold">{d.title}</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-pp-navy sm:text-3xl">{d.title}</h1>
           <Pill value={d.status} />
           {d.total_amount && <span className="text-sm text-slate-600">{money(d.total_amount, d.currency)}</span>}
           {approved && (
@@ -224,7 +224,7 @@ export default function Review({ id }: { id: number }) {
           ) : null,
         )}
       </div>
-      <div className="space-y-4 lg:sticky lg:top-4 lg:self-start">
+      <div className="space-y-4 lg:sticky lg:top-20 lg:self-start">
         <Card title="Approve mandate">
           {approved ? (
             <p className="text-sm text-emerald-700">

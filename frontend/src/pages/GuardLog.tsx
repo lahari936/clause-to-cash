@@ -1,13 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import type { ColDef } from 'ag-grid-community'
-import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
+import { gridTheme } from '../components/grid'
 import { useMemo, useState } from 'react'
 import { api, send } from '../api/client'
 import type { ActionResult, GuardEvent } from '../api/types'
-import { Button, Card, Empty, ErrorNote, GuardResult, Loading, money, Pill } from '../components/ui'
-
-ModuleRegistry.registerModules([AllCommunityModule])
+import { Button, Card, Empty, ErrorNote, GuardResult, Loading, money, Pill, RuleStrip } from '../components/ui'
 
 const RULES: Record<string, string> = {
   G1: 'Approved mandate exists',
@@ -44,7 +42,7 @@ function Approvals() {
             <span className="text-slate-600">to {String(e.payload_json.recipient)}</span>
             <span className="text-xs text-slate-500">{e.reason}</span>
             <span className="ml-auto flex gap-2">
-              <Button onClick={() => act.mutate({ id: e.id, verb: 'approve' })} disabled={act.isPending}>
+              <Button tone="pay" onClick={() => act.mutate({ id: e.id, verb: 'approve' })} disabled={act.isPending}>
                 Approve
               </Button>
               <Button tone="ghost" onClick={() => act.mutate({ id: e.id, verb: 'reject' })} disabled={act.isPending}>
@@ -76,7 +74,12 @@ export default function GuardLog() {
         valueFormatter: (p) => money(p.value, p.data?.payload_json.currency as string),
       },
       { field: 'decision', filter: true, width: 150, cellRenderer: (p: { value: string }) => <Pill value={p.value} /> },
-      { field: 'rule_ids', headerName: 'Rules', width: 130, valueFormatter: (p) => (p.value as string[]).join(' ') },
+      {
+        field: 'rule_ids',
+        headerName: 'Rules',
+        width: 340,
+        cellRenderer: (p: { value: string[]; data?: GuardEvent }) => <RuleStrip decision={p.data?.decision ?? ''} ruleIds={p.value} />,
+      },
       { field: 'reason', flex: 1, tooltipField: 'reason' },
     ],
     [],
@@ -102,7 +105,8 @@ export default function GuardLog() {
             <Empty>No guard decisions yet.</Empty>
           ) : (
             <div style={{ height: 520 }}>
-              <AgGridReact<GuardEvent>
+              <AgGridReact<GuardEvent> theme={gridTheme}
+                suppressColumnVirtualisation
                 rowData={q.data}
                 columnDefs={cols}
                 defaultColDef={{ sortable: true, resizable: true }}
@@ -117,6 +121,7 @@ export default function GuardLog() {
           <Card title={sel ? `Event #${sel.id}` : 'Details'}>
             {sel ? (
               <div className="space-y-2 text-sm">
+                <RuleStrip decision={sel.decision} ruleIds={sel.rule_ids} />
                 <div>
                   <Pill value={sel.decision} /> by <b>{sel.actor}</b>
                   {sel.approved_by && <span> · approved by {sel.approved_by}</span>}

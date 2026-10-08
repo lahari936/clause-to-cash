@@ -24,6 +24,7 @@ export default function MilestoneGantt({ milestones, start, today, currency }: {
   }
   let prev = Date.parse(start)
   return (
+    <div>
     <div className="relative">
       <div className="relative mb-1 h-5 border-b border-slate-200 text-[10px] text-slate-500">
         {months.map((m) => (
@@ -53,9 +54,10 @@ export default function MilestoneGantt({ milestones, start, today, currency }: {
         })}
       </div>
       <div className="pointer-events-none absolute bottom-0 top-0 w-px bg-rose-500" style={{ left: pct(Date.parse(today)) }}>
-        <span className="absolute -top-1 left-1 text-[10px] font-semibold text-rose-600">today</span>
+        <span className="absolute -bottom-4 left-1 text-[10px] font-semibold text-rose-600">today</span>
       </div>
-      <div className="mt-3 flex flex-wrap gap-3 text-[11px] text-slate-600">
+    </div>
+      <div className="mt-6 flex flex-wrap gap-3 text-[11px] text-slate-600">
         {Object.entries(COLOR).map(([s, c]) => (
           <span key={s} className="flex items-center gap-1">
             <span className={`inline-block h-2.5 w-2.5 rounded-sm ${c}`} />

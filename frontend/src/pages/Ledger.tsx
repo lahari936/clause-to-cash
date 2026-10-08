@@ -1,13 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import type { ColDef } from 'ag-grid-community'
-import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
+import { gridTheme } from '../components/grid'
 import { useMemo } from 'react'
 import { api } from '../api/client'
 import type { LedgerRow } from '../api/types'
 import { Card, Empty, ErrorNote, Loading, money } from '../components/ui'
-
-ModuleRegistry.registerModules([AllCommunityModule])
 
 const TYPE_STYLE: Record<string, string> = {
   invoice_sent: '#6d28d9',
@@ -73,7 +71,7 @@ export default function Ledger() {
           <Empty>No money has moved yet.</Empty>
         ) : (
           <div style={{ height: 520 }}>
-            <AgGridReact<LedgerRow> rowData={q.data} columnDefs={cols} defaultColDef={{ sortable: true, resizable: true }} pagination paginationPageSize={50} />
+            <AgGridReact<LedgerRow> theme={gridTheme} rowData={q.data} columnDefs={cols} defaultColDef={{ sortable: true, resizable: true }} pagination paginationPageSize={50} />
           </div>
         )}
       </Card>

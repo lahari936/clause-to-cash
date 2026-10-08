@@ -1,1 +1,56 @@
 @import "tailwindcss";
+
+/* PayPal-style palette. Remapping indigo/slate means every component picks it up without edits. */
+@theme {
+  --font-sans: "Plus Jakarta Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --color-indigo-50: #f0f6ff;
+  --color-indigo-100: #dbeafe;
+  --color-indigo-400: #4d9fff;
+  --color-indigo-500: #1a86ff;
+  --color-indigo-600: #0070e0; /* primary action */
+  --color-indigo-700: #003087; /* PayPal navy */
+  --color-indigo-800: #001c64;
+  --color-slate-50: #f5f7fa; /* page background */
+  --color-slate-900: #001435;
+  --color-pp-gold: #ffc439;
+  --color-pp-navy: #003087;
+  --color-pp-sky: #009cde;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* anchors land below the sticky header */
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--color-slate-50);
+  overscroll-behavior-y: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid #0070e0;
+  outline-offset: 2px;
+}
+
+/* Phones: wide tables scroll inside their card instead of pushing the page sideways. */
+@media (max-width: 640px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}

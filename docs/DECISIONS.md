@@ -26,3 +26,4 @@
 | 2026-10-08 | Sandbox accounts must be non-India (US) | PayPal returns INR_FOREIGN_CURRENCY_BLOCKED: India accounts can't invoice customers within India | Code workaround (none possible) |
 | 2026-10-08 | `Prefer: return=representation` only on invoice create | `/send` answers 406 when it's present | Sending it on every POST |
 | 2026-10-08 | Invoice create is not deduped by PayPal-Request-Id in sandbox | Observed 3 drafts for one key; we persist the draft id and reuse it, orphan drafts are harmless (never sent) | Searching PayPal for drafts before create |
+| 2026-10-08 | PayPal-style UI: navy/blue palette, Plus Jakarta Sans (free stand-in for proprietary PayPal Sans), gold reserved for money-moving buttons, G1–G10 rule strip | Owner asked for PayPal look; no PayPal logo/trademarks so the app can't pass as PayPal | Copying PayPal branding wholesale |

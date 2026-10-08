@@ -65,22 +65,24 @@ export function CitationChip({ cite, onOpen }: { cite: Cited | null | undefined;
   )
 }
 
-export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement> & { tone?: 'primary' | 'ghost' | 'danger' }) {
+/** tone="pay" (PayPal gold) is reserved for buttons that move money. */
+export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement> & { tone?: 'primary' | 'ghost' | 'danger' | 'pay' }) {
   const { tone = 'primary', className = '', ...rest } = props
   const tones = {
-    primary: 'bg-indigo-600 text-white hover:bg-indigo-700 disabled:bg-slate-300',
-    ghost: 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 disabled:text-slate-300',
+    primary: 'bg-indigo-600 text-white shadow-sm hover:bg-indigo-700 disabled:bg-slate-300 disabled:shadow-none',
+    ghost: 'border border-indigo-600 bg-white text-indigo-600 hover:bg-indigo-50 disabled:border-slate-300 disabled:text-slate-300',
     danger: 'bg-rose-600 text-white hover:bg-rose-700 disabled:bg-slate-300',
+    pay: 'bg-pp-gold text-pp-navy shadow-sm hover:brightness-95 disabled:bg-slate-300 disabled:text-white disabled:shadow-none',
   }
-  return <button {...rest} className={`rounded-md px-3 py-1.5 text-sm font-medium disabled:cursor-not-allowed ${tones[tone]} ${className}`} />
+  return <button {...rest} className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors active:scale-[0.98] disabled:cursor-not-allowed ${tones[tone]} ${className}`} />
 }
 
 export function Card({ title, children, right }: { title?: ReactNode; children: ReactNode; right?: ReactNode }) {
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+    <section className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-[0_1px_3px_rgba(0,20,53,0.06),0_8px_24px_rgba(0,20,53,0.04)]">
       {(title || right) && (
         <div className="mb-3 flex items-center justify-between gap-2">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">{title}</h2>
+          <h2 className="text-base font-bold tracking-tight text-pp-navy">{title}</h2>
           {right}
         </div>
       )}
@@ -94,12 +96,12 @@ export function Loading({ what = 'Loading' }: { what?: string }) {
 }
 
 export function Empty({ children }: { children: ReactNode }) {
-  return <p className="rounded-md border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500">{children}</p>
+  return <p className="rounded-xl border border-dashed border-slate-300 bg-slate-50/60 p-6 text-center text-sm text-slate-500">{children}</p>
 }
 
 export function ErrorNote({ error }: { error: unknown }) {
   if (!error) return null
-  return <p className="rounded-md bg-rose-50 p-2 text-sm text-rose-700">{error instanceof Error ? error.message : String(error)}</p>
+  return <p role="alert" className="rounded-xl bg-rose-50 px-3 py-2 text-sm text-rose-700">{error instanceof Error ? error.message : String(error)}</p>
 }
 
 export class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | null }> {
@@ -121,12 +123,42 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, { error: E
   }
 }
 
+const RULE_IDS = ['G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8', 'G9', 'G10']
+
+/** G1–G10 at a glance: green passed, red denied, amber needs a human. On DENY the API only
+ *  reports the failing rules, so the rest stay neutral rather than claiming a pass. */
+export function RuleStrip({ decision, ruleIds }: { decision: string; ruleIds: string[] }) {
+  const hit = new Set(ruleIds)
+  return (
+    <span className="inline-flex h-fit flex-wrap items-center gap-1 self-center align-middle" aria-label={`Guard rules: ${decision} ${ruleIds.join(' ')}`}>
+      {RULE_IDS.map((id) => {
+        const tone =
+          decision === 'ALLOW'
+            ? 'bg-emerald-100 text-emerald-800'
+            : hit.has(id)
+              ? decision === 'DENY'
+                ? 'bg-rose-600 text-white'
+                : 'bg-amber-400 text-pp-navy'
+              : 'bg-slate-100 text-slate-400'
+        return (
+          <span key={id} className={`rounded-md px-1.5 py-1 font-mono text-[11px] font-medium leading-none ${tone}`}>
+            {id}
+          </span>
+        )
+      })}
+    </span>
+  )
+}
+
 export function GuardResult({ r }: { r: { decision: string; rule_ids: string[]; reason: string } | null | undefined }) {
   if (!r) return null
   return (
-    <div className="mt-2 rounded-md border border-slate-200 bg-slate-50 p-2 text-sm">
-      <Pill value={r.decision} /> <span className="ml-1 font-mono text-xs text-slate-600">{r.rule_ids.join(' ')}</span>
-      <div className="mt-1 text-slate-700">{r.reason}</div>
+    <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm">
+      <div className="flex flex-wrap items-center gap-2">
+        <Pill value={r.decision} />
+        <RuleStrip decision={r.decision} ruleIds={r.rule_ids} />
+      </div>
+      <div className="mt-2 text-slate-700">{r.reason}</div>
     </div>
   )
 }

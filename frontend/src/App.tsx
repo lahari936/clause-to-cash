@@ -13,7 +13,10 @@ import Review from './pages/Review'
 function useHash(): string[] {
   const [hash, setHash] = useState(location.hash)
   useEffect(() => {
-    const on = () => setHash(location.hash)
+    const on = () => {
+      setHash(location.hash)
+      window.scrollTo({ top: 0 }) // new page starts at the top
+    }
     addEventListener('hashchange', on)
     return () => removeEventListener('hashchange', on)
   }, [])
@@ -40,7 +43,7 @@ function DemoClock() {
       Today
       <input
         type="date"
-        className="rounded bg-slate-800 px-2 py-1 text-slate-100"
+        className="rounded-full bg-white/10 px-3 py-1 text-white [color-scheme:dark]"
         value={clock.data?.today ?? ''}
         onChange={(e) => set.mutate(e.target.value || null)}
       />
@@ -51,8 +54,19 @@ function DemoClock() {
   )
 }
 
+function useScrolled(): boolean {
+  const [scrolled, setScrolled] = useState(false)
+  useEffect(() => {
+    const on = () => setScrolled(window.scrollY > 4)
+    addEventListener('scroll', on, { passive: true })
+    return () => removeEventListener('scroll', on)
+  }, [])
+  return scrolled
+}
+
 export default function App() {
   const [page, id] = useHash()
+  const scrolled = useScrolled()
   const health = useQuery({ queryKey: ['health'], queryFn: () => api<{ ok: boolean }>('/health'), retry: 1 })
   let body
   if (page === 'review' && id) body = <Review id={Number(id)} />
@@ -65,17 +79,18 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
-      <header className="bg-slate-900 text-white">
+      <header className={`z-30 bg-pp-navy text-white transition-shadow duration-300 sm:sticky sm:top-0 ${scrolled ? 'shadow-[0_4px_20px_rgba(0,20,53,0.35)]' : ''}`}>
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
-          <a href="#/" className="text-lg font-semibold">
-            Clause<span className="text-indigo-400">→</span>Cash
+          <a href="#/" className="text-xl font-bold tracking-tight">
+            Clause<span className="text-pp-sky">→</span>Cash
           </a>
-          <nav className="flex flex-wrap gap-1 text-sm">
+          <nav className="-mx-1 flex max-w-full gap-1 overflow-x-auto text-sm [scrollbar-width:none]">
             {NAV.map(([href, label]) => (
               <a
                 key={href}
                 href={`#/${href}`}
-                className={`rounded px-2 py-1 hover:bg-slate-700 ${(page ?? '') === href || (href === '' && ['review', 'contract'].includes(page)) ? 'bg-slate-700' : ''}`}
+                aria-current={(page ?? '') === href || (href === '' && ['review', 'contract'].includes(page)) ? 'page' : undefined}
+                className="relative shrink-0 whitespace-nowrap px-3 py-2 text-white/80 transition-colors hover:text-white aria-[current=page]:font-semibold aria-[current=page]:text-white aria-[current=page]:after:absolute aria-[current=page]:after:inset-x-3 aria-[current=page]:after:-bottom-0.5 aria-[current=page]:after:h-0.5 aria-[current=page]:after:rounded-full aria-[current=page]:after:bg-pp-sky"
               >
                 {label}
               </a>
@@ -89,7 +104,7 @@ export default function App() {
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-7xl p-4">
+      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
         <ErrorBoundary key={location.hash}>{body}</ErrorBoundary>
       </main>
       <footer className="pb-6 text-center text-xs text-slate-400">

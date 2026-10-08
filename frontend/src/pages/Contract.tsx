@@ -94,7 +94,7 @@ function MilestoneCard({ m, currency }: { m: Milestone; currency: string | null 
           </Button>
         )}
         {(m.status === 'delivered' || m.status === 'accepted') && (
-          <Button disabled={accept.isPending} onClick={() => accept.mutate()}>
+          <Button tone="pay" disabled={accept.isPending} onClick={() => accept.mutate()}>
             {accept.isPending ? 'Invoicing via PayPal…' : m.status === 'accepted' ? 'Retry invoice' : 'Accept & invoice'}
           </Button>
         )}
@@ -142,7 +142,7 @@ export default function ContractPage({ id }: { id: number }) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-3">
-        <h1 className="text-xl font-semibold">{d.title}</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-pp-navy sm:text-3xl">{d.title}</h1>
         <Pill value={d.status} />
         <span className="text-sm text-slate-600">{money(d.total_amount, d.currency)}</span>
         <a className="ml-auto text-sm text-indigo-700 underline" href={`#/review/${id}`}>
