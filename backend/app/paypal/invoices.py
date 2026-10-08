@@ -46,7 +46,7 @@ def create_draft(pp: PayPalClient, request_id: str, d: InvoiceDraft) -> str:
             }
         ],
     }
-    res = pp.post("/v2/invoicing/invoices", request_id, body)
+    res = pp.post("/v2/invoicing/invoices", request_id, body, prefer_full=True)
     if "id" in res:
         return str(res["id"])
     return str(res["href"]).rstrip("/").split("/")[-1]  # older "return=minimal" shape

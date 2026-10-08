@@ -23,3 +23,6 @@
 | 2026-10-07 | `/disputes/demo` creates dry-run disputes | Sandbox disputes on invoice payments are unreliable (plan §12) | Waiting on sandbox |
 | 2026-10-07 | MCP server (4.3) cut | Plan cut order #1 | Building it |
 | 2026-10-07 | No auth on the API | Hackathon demo on sandbox money only; all money paths still go through the Guard | Adding login for the demo |
+| 2026-10-08 | Sandbox accounts must be non-India (US) | PayPal returns INR_FOREIGN_CURRENCY_BLOCKED: India accounts can't invoice customers within India | Code workaround (none possible) |
+| 2026-10-08 | `Prefer: return=representation` only on invoice create | `/send` answers 406 when it's present | Sending it on every POST |
+| 2026-10-08 | Invoice create is not deduped by PayPal-Request-Id in sandbox | Observed 3 drafts for one key; we persist the draft id and reuse it, orphan drafts are harmless (never sent) | Searching PayPal for drafts before create |

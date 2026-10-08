@@ -25,6 +25,7 @@ def main() -> None:
         print(f"token ok, expires_in={body['expires_in']}s")
         num = http.post(
             "/v2/invoicing/generate-next-invoice-number",
+            json={},
             headers={
                 "Authorization": f"Bearer {body['access_token']}",
                 "PayPal-Request-Id": f"paypal-check-{uuid.uuid4()}",

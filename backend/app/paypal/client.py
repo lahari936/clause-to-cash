@@ -80,14 +80,13 @@ class PayPalClient:
     def get(self, path: str) -> JSON:
         return self._send("GET", path, headers=self._headers())
 
-    def post(self, path: str, request_id: str, json: JSON | None = None) -> JSON:
-        headers = self._headers(
-            {
-                "PayPal-Request-Id": request_id,
-                "Content-Type": "application/json",
-                "Prefer": "return=representation",
-            }
-        )
+    def post(
+        self, path: str, request_id: str, json: JSON | None = None, prefer_full: bool = False
+    ) -> JSON:
+        extra = {"PayPal-Request-Id": request_id, "Content-Type": "application/json"}
+        if prefer_full:  # only some endpoints (invoice create) accept it; others answer 406
+            extra["Prefer"] = "return=representation"
+        headers = self._headers(extra)
         return self._send("POST", path, json=json or {}, headers=headers)
 
     def post_multipart(

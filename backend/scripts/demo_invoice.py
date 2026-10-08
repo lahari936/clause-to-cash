@@ -10,6 +10,7 @@ from sqlalchemy import select  # noqa: E402
 
 from app.db.models import Contract, Invoice, Milestone  # noqa: E402
 from app.db.session import SessionLocal  # noqa: E402
+from app.paypal.client import PayPalError  # noqa: E402
 from app.services import milestones  # noqa: E402
 
 
@@ -34,7 +35,11 @@ def main() -> None:
                 "Figma design system shared covering home, product and checkout pages.",
                 ["https://figma.com/file/demo"],
             )
-        out = milestones.accept(db, m, "demo_invoice.py")
+        try:
+            out = milestones.accept(db, m, "demo_invoice.py")
+        except PayPalError as e:
+            db.commit()  # keep the FAILED row + draft id so a rerun reuses the same draft
+            sys.exit(str(e))
         db.commit()
         print(out.to_json())
         if out.decision.allowed:
