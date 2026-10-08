@@ -44,10 +44,11 @@ All commands run from `backend/` with the venv active unless noted. Results from
 - [x] 3.1 Acceptance agent — `pytest tests/test_acceptance.py -q` → 4 passed; `-m live` → 3 fixtures correct on Gemini.
   Manual: real delivery in the UI → "✓ meets criteria" with client summary.
 - [x] 3.2 GitHub hook — `pytest tests/test_github_hook.py -q` → 3 passed (HMAC, merged PR + `milestone:<id>` label).
-- [~] 3.3 Payouts — live: Guard ALLOWed $600.00 / $400.00, PayPal refused `403 PAYOUT_NOT_AVAILABLE` (India business account can't send payouts; nothing moved; rows held as NEEDS_REVIEW). Needs app on the US business account.
+- [x] 3.3 Payouts — live on a US-business app: batch **L8N3W3BT4TQHJ**, Ana Lima $600.00 + Ben Okafor $400.00 → `status=SUCCESS`; `python scripts/demo_payout.py` → `ledger payout_done entries: 2`. (First attempt from the India account was refused `403 PAYOUT_NOT_AVAILABLE`, nothing moved, rows held then reconciled.)
 - 3.3 tests — exact shares through G7/G8/G9 in one batch, tested in `test_invoicing_service.py`.
   Live `python scripts/demo_payout.py` after a sandbox payment. (owner, after 0.3)
-- [~] 3.4 Collections — `pytest tests/test_collections.py -q` → 3 passed (reminder in grace, $60.00 late fee after grace,
+- [x] 3.4 Collections — live: M2 invoice INV2-HEU2-KE6M-P89E-TUUR, clock +6 days past due → reminder ALLOW + late-fee invoice **INV2-RTTN-NELR-4S9M-MLY5 $52.50** (1.5% of $3,500).
+- 3.4 tests — `pytest tests/test_collections.py -q` → 3 passed (reminder in grace, $60.00 late fee after grace,
   one fee per invoice, hand-crafted wrong fee DENY G6). Live late-fee invoice id pending 0.3.
 - [x] 3.5 Approvals — `pytest tests/test_approvals.py -q` → 2 passed.
 - [x] 3.6 Guard log UI — AG Grid of guard events, decision counts, payload detail, pending approvals with Approve/Reject.
